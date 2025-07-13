@@ -1,15 +1,21 @@
 import React from "react";
-import hero from "../assets/new.jpg";
+
+import Image1 from "../components/Image.jsx";
+import Categories from "./Categories.jsx";
+import Featured from "./Featured.jsx";
 
 const Hero = () => {
   return (
-    <div>
-      <div className=" hidden md:flex mt-1 justify-center items-center w-full h-[100vh] px-10">
-        <img
-          className="object-fill w-full h-full "
-          src={hero}
-          alt="Football Hero"
+    <div className="flex mb-10 gap-3">
+      <div className=" hidden md:flex mt-1 justify-start items-center flex-[1.5] h-[90vh] px-1">
+        <Image1
+          src="/tom.png"
+          alt="Picture of the author"
+          className="h-[90vh] w-full"
         />
+      </div>
+      <div className="flex-1">
+        <Featured />
       </div>
     </div>
   );

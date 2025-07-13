@@ -10,25 +10,25 @@ const Navbar = () => {
           <div className="flex gap-8">
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+              className="text-black hover:text-gray-600 transition-colors font-medium"
             >
               Home
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+              className="text-black hover:text-gray-600 transition-colors font-medium"
             >
               Trending
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+              className="text-black hover:text-gray-600 transition-colors font-medium"
             >
               Most Popular
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+              className="text-black hover:text-gray-600 transition-colors font-medium"
             >
               About
             </a>

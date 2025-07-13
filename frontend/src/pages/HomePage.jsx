@@ -1,14 +1,17 @@
 import React from "react";
-import Top from "../components/Top";
-import Navbar from "../components/Navbar";
+
 import Hero from "../components/Hero";
+import Categories from "../components/Categories";
+import PostList from "../components/PostList";
 
 const HomePage = () => {
   return (
     <div>
-      <Top />
-      <Navbar />
       <Hero />
+      <div className="flex  flex-col">
+        <Categories />
+        <PostList />
+      </div>
     </div>
   );
 };
