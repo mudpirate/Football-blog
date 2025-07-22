@@ -6,22 +6,27 @@ import SingleBlog from "./pages/SingleBlog";
 import Write from "./pages/Write";
 import HomePage from "./pages/HomePage";
 import Layout from "./layout/Layout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <Routes>
-      {/* Wrap all main pages with Layout */}
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="/posts" element={<BlogList />} />
-        <Route path="/posts/:slug" element={<SingleBlog />} />
-        <Route path="/post-blog" element={<Write />} />
-      </Route>
+    <>
+      <ToastContainer position="bottom-right" />
+      <Routes>
+        {/* Wrap all main pages with Layout */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/posts" element={<BlogList />} />
+          <Route path="/posts/:slug" element={<SingleBlog />} />
+          <Route path="/post-blog" element={<Write />} />
+        </Route>
 
-      {/* Auth pages outside Layout */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+        {/* Auth pages outside Layout */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </>
   );
 }
 

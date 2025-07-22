@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoSearch } from "react-icons/go";
 import { useState } from "react";
 import logo from "../assets/logo.png";
@@ -7,11 +7,17 @@ import {
   SignedIn,
   SignedOut,
   SignInButton,
+  useAuth,
   UserButton,
 } from "@clerk/clerk-react";
 
 const Top = () => {
   const [open, setOpen] = useState(false);
+  // const { getToken } = useAuth();
+
+  // useEffect(() => {
+  //   getToken().then((token) => console.log(token));
+  // }, []);
 
   return (
     <div className="bg-white border-b border-black py-2 px-4 shadow-sm">
@@ -22,7 +28,7 @@ const Top = () => {
             <GoSearch className="w-5 h-5" />
           </button>
           <button>
-            <Link to="/write">
+            <Link to="/">
               {" "}
               <img
                 width="40"
@@ -33,14 +39,16 @@ const Top = () => {
               />
             </Link>
           </button>
-          <Link to="/write">
+          <Link to="/post-blog">
             {" "}
             <span className="font-bold">Add Blog</span>
           </Link>
         </div>
         {/* Center: Title */}
         <div className="flex-1 flex justify-center items-center">
-          <img src={logo} className="h-10 mr-30 w-50" alt="" />
+          <Link to="/">
+            <img src={logo} className="h-10 mr-30 w-50" alt="" />
+          </Link>
         </div>
         {/* Right: Login/Menu */}
         <div className="flex items-center gap-2">

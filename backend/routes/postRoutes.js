@@ -4,9 +4,12 @@ import {
   getPost,
   createPost,
   deletePost,
+  uploadAuth,
 } from "../controllers/postControllers.js";
 
 const router = express.Router();
+
+router.get("/upload-auth", uploadAuth);
 
 router.get("/", getPosts);
 router.get("/:slug", getPost);

@@ -1,5 +1,6 @@
 import React from "react";
 import Image1 from "../components/Image.jsx";
+import { Link, Links } from "react-router-dom";
 
 const Featured = () => {
   return (
@@ -14,16 +15,19 @@ const Featured = () => {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex gap-2 mb-2">
-              <span className="bg-gray-200 text-black rounded px-3 py-1 text-xs font-semibold">
+              <Link className="bg-gray-200 text-black rounded px-3 py-1 text-xs font-semibold">
                 Legends
-              </span>
+              </Link>
               <span className="bg-gray-100 text-gray-600 rounded px-3 py-1 text-xs">
                 2 days ago
               </span>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+            <Link
+              to="/posts/test"
+              className="text-lg font-bold text-gray-900 mb-2 line-clamp-2"
+            >
               Vinicius Jr: The Rising Star of Real Madrid
-            </h3>
+            </Link>
             <p>Lorem, ipsum dolor sit amet consectetur a</p>
           </div>
         </div>

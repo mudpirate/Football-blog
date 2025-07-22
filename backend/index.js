@@ -4,15 +4,26 @@ import userRouter from "./routes/userRoutes.js";
 import postRouter from "./routes/postRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
 import webhookRouter from "./routes/webhookRoutes.js";
-import { clerkMiddleware, requireAuth } from "@clerk/express";
+import { clerkMiddleware } from "@clerk/express";
 import connectDB from "./lib/connectDB.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors(process.env.CLIENT_URL));
 app.use(clerkMiddleware());
 
 app.use("/webhooks", webhookRouter);
 app.use(express.json());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", 
+    "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 
 // Add request logging middleware
 // app.get("/auth-state", (req, res) => {
