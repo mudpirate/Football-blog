@@ -2,6 +2,7 @@ import React from "react";
 import PostListItems from "./PostListItems";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
 
 const PostList = () => {
   const fetchPosts = async () => {

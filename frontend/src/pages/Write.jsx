@@ -160,10 +160,14 @@ const Write = () => {
 
           <div className="flex  gap-2 w-full md:mr-2">
             <Upload type="image" setProgress={setProgress} setData={setImg}>
-              <button className="bg-black p-2 text-white">Add image</button>
+              <button type="button" className="bg-black p-2 text-white">
+                Add image
+              </button>
             </Upload>
             <Upload type="video" setProgress={setProgress} setData={setVideo}>
-              <button className="bg-black p-2 text-white">Add video</button>
+              <button type="button" className="bg-black p-2 text-white">
+                Add video
+              </button>
             </Upload>
           </div>
 

@@ -1,11 +1,32 @@
 import React from "react";
 import Image1 from "../components/Image";
 import PostMenuAction from "../components/PostMenuAction";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Search from "../components/Search";
 import Comments from "../components/comments";
 
 const SingleBlog = () => {
+  const { slug } = useParams();
+
+  const fetchBlog = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/posts/${slug}`
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["posts", slug],
+    queryFn: fetchBlog,
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading posts</p>;
+
   return (
     <div className="min-h-screen bg-white">
       <PostMenuAction />
