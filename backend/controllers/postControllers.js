@@ -1,15 +1,27 @@
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import ImageKit from "imagekit";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const getPosts = async (req, res, next) => {
-  const posts = await Post.find();
-  res.status(200).json(posts);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+
+  const posts = await Post.find()
+    .sort({ createdAt: -1 })
+    .populate("user", "username")
+    .limit(limit)
+    .skip((page - 1) * limit);
+
+  const totalPosts = await Post.countDocuments();
+  const hasMore = page * limit < totalPosts;
+
+  res.status(200).json({ posts, hasMore });
 };
 
 export const getPost = async (req, res, next) => {
   const { slug } = req.params;
-  const post = await Post.findOne({ slug });
+  const post = await Post.findOne({ slug }).populate("user", "username img");
   res.status(200).json(post);
 };
 
@@ -26,18 +38,18 @@ export const createPost = async (req, res, next) => {
   }
 
   let slug = req.body.title.replace(/ /g, "-").toLowerCase();
-  let uniqueSlug = slug;
+
   let counter = 2;
 
-  let existingPost = await Post.findOne({ slug: uniqueSlug });
+  let existingPost = await Post.findOne({ slug });
 
   while (existingPost) {
-    uniqueSlug = `${slug}-${counter}`;
-    existingPost = await Post.findOne({ slug: uniqueSlug });
+    slug = `${slug}-${counter}`;
+    existingPost = await Post.findOne({ slug });
     counter++;
   }
 
-  const newPost = new Post({ user: user._id, slug: uniqueSlug, ...req.body });
+  const newPost = new Post({ user: user._id, slug, ...req.body });
 
   const post = await newPost.save();
   res.status(200).json(post);
@@ -99,6 +111,41 @@ const imagekit = new ImageKit({
 });
 
 export const uploadAuth = async (req, res) => {
-  const result = imagekit.getAuthenticationParameters();
-  res.send(result);
+  const { token, expire, signature } = imagekit.getAuthenticationParameters();
+  res.send({
+    token,
+    expire,
+    signature,
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  });
+};
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+console.log(
+  "Gemini Key Loaded:",
+  process.env.GEMINI_API_KEY ? "✅" : "❌ Missing"
+);
+
+export const generateAI = async (req, res) => {
+  try {
+    console.log("📥 Full body:", req.body);
+    const { prompt } = req.body;
+    console.log("📥 Prompt received:", prompt);
+
+    if (!prompt) {
+      return res.status(400).json({ error: "Prompt is required" });
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+    const result = await model.generateContent(prompt);
+
+    // ✅ No need to await result.response
+    const text = await result.response.text(); // ✅ Await this
+    console.log("🧠 Gemini result:", result);
+    res.json({ response: text }); // ✅
+  } catch (err) {
+    console.error("Gemini Error:", err);
+    res.status(500).json({ error: "Failed to get response from Gemini" });
+  }
 };

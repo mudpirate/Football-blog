@@ -6,7 +6,7 @@ const BlogList = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-2">
+    <div className="min-h-screen  bg-gray-50 py-10 px-2">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           Players Blogs

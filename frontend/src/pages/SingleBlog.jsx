@@ -4,9 +4,33 @@ import PostMenuAction from "../components/PostMenuAction";
 import { Link, useParams } from "react-router-dom";
 import Search from "../components/Search";
 import Comments from "../components/comments";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { format } from "timeago.js";
+import { useUser } from "@clerk/clerk-react";
+import { FaFacebook } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const SingleBlog = () => {
   const { slug } = useParams();
+
+  const { user } = useUser();
+  const {
+    data: recentPostsData,
+    isLoading: loadingRecent,
+    isError: errorRecent,
+  } = useQuery({
+    queryKey: ["recent-posts"],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`);
+      return res.data;
+    },
+  });
+
+  const recentPosts = recentPostsData?.posts
+    ?.filter((post) => post.slug !== slug)
+    ?.slice(0, 4); // Limit to 3 recent posts
 
   const fetchBlog = async () => {
     try {
@@ -24,166 +48,218 @@ const SingleBlog = () => {
     queryFn: fetchBlog,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading posts</p>;
+  if (isLoading)
+    return (
+      <p className="text-center py-20 text-lg text-gray-500">Loading...</p>
+    );
+  if (isError)
+    return (
+      <p className="text-center py-20 text-lg text-red-500">
+        Error loading post
+      </p>
+    );
 
   return (
-    <div className="min-h-screen bg-white">
-      <PostMenuAction />
-      <div className="max-w-7xl mx-auto px-4 py-2">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div className="min-h-screen  pb-10">
+      <div className="max-w-7xl mx-auto  px-2 sm:px-4 lg:px-8 py-6">
+        <div className="flex flex-col  lg:flex-row gap-5">
           {/* Main Content */}
-          <div className="lg:col-span-3">
-            <div className="flex flex-col">
-              <div className="flex flex-col">
-                <div>
-                  <Image1
-                    src="/tom.png"
-                    className="w-full h-96 object-cover rounded-xl"
+          <div className="flex-1 ">
+            <div className="bg-white dark:text-white dark:bg-black  shadow-xl p-6 lg:p-10">
+              <PostMenuAction post={data} />
+              {data?.img && (
+                <div className="flex justify-center mb-6">
+                  <div className="w-full max-h-[90vh] overflow-hidden  shadow-lg">
+                    <Image1
+                      src={data.img}
+                      className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="flex flex-col gap-4 mt-2">
+                <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
+                  <span className="inline-flex items-center gap-1">
+                    <Image1
+                      className="w-7 h-7 rounded-full dark:text-white dark:bg-black  object-cover border border-gray-200"
+                      src={data.user?.img}
+                    />
+                    <span className="font-semibold dark:text-white dark:bg-black  text-black capitalize px-3 py-1 rounded-full text-xs bg-gray-200">
+                      {data.user?.username}
+                    </span>
+                  </span>
+
+                  <span className=" text-black capitalize dark:text-white dark:bg-black  bg-gray-200 px-3 py-1 text-xs rounded-xl">
+                    {data.category}
+                  </span>
+
+                  <span className=" text-black dark:text-white dark:bg-black  bg-gray-200 px-3 py-1 text-xs rounded-xl">
+                    {format(data.createdAt)}
+                  </span>
+                </div>
+                <h1 className="text-4xl dark:text-white dark:bg-black  font-extrabold text-gray-900 leading-tight mb-2">
+                  {data.title}
+                </h1>
+
+                {data?.desc && (
+                  <p className="text-lg text-gray-500 font-bold pl-1 ">
+                    {data?.desc}
+                  </p>
+                )}
+                <div className="prose prose-lg max-w-none mt-2 text-justify text-gray-900">
+                  <div
+                    className="blog-content dark:text-white dark:bg-black "
+                    dangerouslySetInnerHTML={{ __html: data.content }}
                   />
                 </div>
-                <div className="flex flex-col gap-3 mt-6">
-                  <h1 className="text-3xl font-bold text-gray-900">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    At, omnis?
-                  </h1>
-                  <p className="text-gray-600">
-                    Written by john doe on Players 2 days ago
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quod cupiditate ut exercitationem eos provident obcaecati.
-                    Fugiat ipsum nihil architecto quia, quidem sint quam
-                    excepturi dolores sunt laboriosam, laborum similique veniam!
-                  </p>
-                </div>
-                <div className="flex flex-col text-justify mt-6">
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Ipsam perferendis ad, quaerat delectus dolor fugiat nihil
-                    veritatis, provident sint illum sunt placeat illo nostrum
-                    doloribus totam numquam adipisci vero dolorum ea. Minus
-                    numquam sit, deleniti aspernatur accusantium ratione
-                    voluptates blanditiis nulla vero magnam dicta nihil?
-                    Nesciunt vitae reprehenderit culpa debitis, sequi commodi
-                    tenetur necessitatibus sunt a, doloremque in voluptates
-                    corrupti.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Esse dicta modi doloremque nobis omnis perferendis commodi
-                    doloribus unde sint explicabo voluptatum excepturi ipsam,
-                    iste molestias, suscipit accusamus at dolorem nostrum quis
-                    quo itaque? Possimus excepturi ipsa iure ut laborum,
-                    mollitia id atque! Porro quae sit nemo repudiandae dolores,
-                    impedit amet.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam voluptates, quod, quia, voluptate quae voluptatem
-                    quibusdam voluptatibus quos quas nesciunt nemo. Quisquam,
-                    quae. Quisquam voluptates, quod, quia, voluptate quae
-                    voluptatem quibusdam voluptatibus quos quas nesciunt nemo.
-                    Quisquam, quae.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quisquam voluptates, quod, quia, voluptate quae voluptatem
-                    quibusdam voluptatibus quos quas nesciunt nemo. Quisquam,
-                    quae. Quisquam voluptates, quod, quia, voluptate quae
-                    voluptatem quibusdam voluptatibus quos quas nesciunt nemo.
-                    Quisquam, quae.
-                  </p>
-                </div>
               </div>
-
+              {/* Divider */}
+              <div className="my-10 border-t border-gray-200" />
               {/* Comments Section */}
               <div className="mt-8">
-                <Comments />
+                <h2 className="text-2xl font-bold dark:text-white dark:bg-black  text-gray-800 mb-4">
+                  Comments
+                </h2>
+                <Comments postId={data._id} />
               </div>
             </div>
           </div>
 
-          {/* Sticky Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-6">
-              {/* Search */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <Search />
-              </div>
+          {/* Sidebar */}
+          <aside className="w-full lg:w-80 flex-shrink-0 space-y-8">
+            {/* Search */}
+            <div className="bg-white dark:text-white dark:bg-black   p-6 shadow-md">
+              <Search />
+            </div>
 
-              {/* Author Info */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  About the Author
+            {recentPosts && (
+              <div className="bg-white dark:text-white dark:bg-black  p-6 shadow-md">
+                <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
+                  Recent Posts
                 </h3>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-                    <span className="text-gray-600 font-semibold text-lg">
-                      JD
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">John Doe</p>
-                    <p className="text-sm text-gray-500">Football Analyst</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 text-sm">
-                  Experienced football analyst with over 10 years covering the
-                  beautiful game. Specializes in tactical analysis and player
-                  development.
-                </p>
-              </div>
-
-              {/* Categories */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  Categories
-                </h3>
-                <div className="space-y-2">
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    All blogs
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Players
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Legends
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Matches
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Leagues
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Transfers
-                  </Link>
-                  <Link className="block px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium">
-                    Young stars
-                  </Link>
+                <div className="space-y-4 dark:text-white dark:bg-black ">
+                  {recentPosts.map((post) => (
+                    <Link
+                      to={`/posts/${post.slug}`}
+                      key={post._id}
+                      className="block group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden ">
+                          <Image1
+                            src={post.img}
+                            className="object-cover w-full h-16"
+                          />
+                        </div>
+                        <div>
+                          <p className="text-sm dark:text-white dark:bg-black  text-gray-700 font-semibold line-clamp-2 group-hover:text-blue-700 transition">
+                            {post.title}
+                          </p>
+                          <span className="text-xs text-gray-500">
+                            {format(post.createdAt)}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
+            )}
 
-              {/* Social Share */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  Share This Article
-                </h3>
-                <div className="flex gap-2">
-                  <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm">
-                    Facebook
-                  </button>
-                  <button className="flex-1 bg-blue-400 text-white py-2 rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm">
-                    Twitter
-                  </button>
-                  <button className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm">
-                    WhatsApp
-                  </button>
-                </div>
+            {/* Author Info */}
+            <div className="bg-white  dark:text-white dark:bg-black  p-6 shadow-md flex flex-col items-center text-center">
+              <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-3 overflow-hidden">
+                <Image1
+                  className="w-full h-full object-cover rounded-full"
+                  src={data.user?.img}
+                />
+              </div>
+              <p className="font-bold  dark:text-white dark:bg-black text-lg capitalize text-gray-900">
+                {data.user?.username}
+              </p>
+              <p className="text-sm text-gray-500 mb-2">Football Analyst</p>
+              <p className="text-xs text-gray-400">
+                Passionate about football, sharing insights and stories.
+              </p>
+            </div>
+
+            {/* Categories */}
+            <div className="bg-white dark:text-white dark:bg-black  p-6 shadow-md">
+              <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
+                Categories
+              </h3>
+              <div className="space-y-2">
+                <Link
+                  to="/"
+                  className="block dark:text-white dark:bg-black  px-3 py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  All blogs
+                </Link>
+                <Link
+                  to="/category/players"
+                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Players
+                </Link>
+                <Link
+                  to="/category/legends"
+                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Legends
+                </Link>
+                <Link
+                  to="/category/matches"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Matches
+                </Link>
+                <Link
+                  to="/category/leagues"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Leagues
+                </Link>
+                <Link
+                  to="/category/transfers"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Transfers
+                </Link>
+                <Link
+                  to="/category/young-stars"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Young stars
+                </Link>
               </div>
             </div>
-          </div>
+
+            {/* you may like */}
+
+            {/* Social Share */}
+            <div className="fixed left-0 top-1/2 dark:text-white dark:bg-black  bg-white px-6 py-4 rounded-xl  w-10 flex flex-col items-center gap-4">
+              <button
+                className="bg-black text-white p-2 rounded-full hover:bg-blue-700 transition duration-200"
+                aria-label="Share on Facebook"
+              >
+                <FaFacebook size={20} />
+              </button>
+
+              <button
+                className="bg-black text-white p-2 rounded-full hover:bg-gray-800 transition duration-200"
+                aria-label="Share on Twitter"
+              >
+                <FaSquareXTwitter size={20} />
+              </button>
+
+              <button
+                className="bg-black text-white p-2 rounded-full hover:bg-green-600 transition duration-200"
+                aria-label="Share on WhatsApp"
+              >
+                <IoLogoWhatsapp size={20} />
+              </button>
+            </div>
+          </aside>
         </div>
       </div>
     </div>

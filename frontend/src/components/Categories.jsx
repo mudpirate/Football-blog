@@ -21,10 +21,12 @@ const Categories = () => {
         </div>
       </div>
 
-      <div className="flex justify-center mx-10 rounded-xl items-center h-full mb-3 bg-white shadow-lg border border-gray-200 -mt-8 relative z-10">
+      <div className="flex justify-center dark:bg-black  mx-10 rounded-xl items-center h-full mb-3 bg-white shadow-lg border border-gray-200 -mt-8 relative z-10">
         {/* Header */}
         <div className="p-6">
-          <h2 className="text-xl font-bold text-black">Categories</h2>
+          <h2 className="text-xl font-bold text-black dark:text-white">
+            Categories
+          </h2>
         </div>
 
         {/* Navigation Links */}
@@ -32,37 +34,37 @@ const Categories = () => {
           <nav className="flex flex-wrap gap-3">
             <Link
               to="/posts"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               All Blogs
             </Link>
             <Link
               to="/posts?cat=players"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               Players
             </Link>
             <Link
               to="/posts?cat=matches"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               Matches
             </Link>
             <Link
               to="/posts?cat=league"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               Leagues
             </Link>
             <Link
               to="/posts?cat=transfers"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               Transfers
             </Link>
             <Link
               to="/posts?cat=young-stars"
-              className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium shadow-sm"
+              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
             >
               Young Stars
             </Link>
@@ -70,8 +72,8 @@ const Categories = () => {
         </div>
 
         {/* Search Section */}
-        <div className="p-2 gap-2">
-          <div className="flex items-center rounded-lg px-3 py-2 bg-gray-100 border border-gray-300 focus-within:bg-white focus-within:border-black transition-colors duration-200">
+        <div className="p-2 gap-2 dark:text-white dark:bg-black ">
+          <div className="flex items-center  dark:text-white dark:bg-black  rounded-lg px-3 py-2 bg-gray-100 border border-gray-300 focus-within:bg-white focus-within:border-black transition-colors duration-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -85,7 +87,7 @@ const Categories = () => {
             <input
               type="text"
               placeholder="Search blogs..."
-              className="w-full ml-2 bg-transparent outline-none text-gray-900 placeholder-gray-500 text-sm"
+              className="w-full ml-2 bg-transparent   outline-none text-gray-900 placeholder-gray-500 text-sm"
             />
           </div>
         </div>

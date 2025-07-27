@@ -3,7 +3,7 @@ import React from "react";
 
 const Login = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+    <div className="flex justify-center dark:text-white dark:bg-black  items-center min-h-screen bg-gray-100 px-4">
       <SignIn
         signUpUrl="/register"
         appearance={{

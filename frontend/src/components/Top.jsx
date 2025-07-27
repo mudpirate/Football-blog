@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { GoSearch } from "react-icons/go";
 import { useState } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, Links } from "react-router-dom";
+import DarkModeSwitc from "./themeToggle";
 import {
   SignedIn,
   SignedOut,
@@ -20,12 +21,12 @@ const Top = () => {
   // }, []);
 
   return (
-    <div className="bg-white border-b border-black py-2 px-4 shadow-sm">
+    <div className="bg-white border-b border-black dark:bg-black py-2 px-4 shadow-sm">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left: Search */}
         <div className="flex gap-2 items-center">
           <button className="bg-white text-black px-3 py-2 rounded-full hover:bg-gray-200 transition-colors text-sm font-medium flex items-center">
-            <GoSearch className="w-5 h-5" />
+            <GoSearch className="w-5 h-5 dark:text-black" />
           </button>
           <button>
             <Link to="/">
@@ -33,7 +34,7 @@ const Top = () => {
               <img
                 width="40"
                 height="4"
-                className="bg-white text-black"
+                className="bg-white text-black rounded-full"
                 src="https://img.icons8.com/ios-filled/50/add--v1.png"
                 alt="add--v1"
               />
@@ -41,14 +42,21 @@ const Top = () => {
           </button>
           <Link to="/post-blog">
             {" "}
-            <span className="font-bold">Add Blog</span>
+            <span className="font-bold dark:text-white">Add Blog</span>
           </Link>
         </div>
         {/* Center: Title */}
-        <div className="flex-1 flex justify-center items-center">
+        <div className="flex-1 flex dark:text-white dark:bg-black  justify-center items-center">
           <Link to="/">
-            <img src={logo} className="h-10 mr-30 w-50" alt="" />
+            <img
+              src={logo}
+              className="h-10 mr-30 w-50 dark:text-white dark:bg-black "
+              alt=""
+            />
           </Link>
+        </div>
+        <div className="mr-3">
+          <DarkModeSwitc />
         </div>
         {/* Right: Login/Menu */}
         <div className="flex items-center gap-2">
@@ -104,13 +112,13 @@ const Top = () => {
               >
                 Most Popular
               </a>
-              <a
-                href="#"
+              <Link
+                to="/write"
                 className="text-gray-700 text-lg font-medium hover:text-blue-600 transition-colors"
                 onClick={() => setOpen(false)}
               >
                 About
-              </a>
+              </Link>
               <button
                 className="bg-black text-white px-5 py-2 rounded-md font-semibold hover:bg-gray-900 transition-colors shadow mt-4"
                 onClick={() => setOpen(false)}

@@ -8,10 +8,11 @@ import HomePage from "./pages/HomePage";
 import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import About from "./pages/About";
 
 function App() {
   return (
-    <>
+    <div>
       <ToastContainer position="bottom-right" />
       <Routes>
         {/* Wrap all main pages with Layout */}
@@ -20,13 +21,14 @@ function App() {
           <Route path="/posts" element={<BlogList />} />
           <Route path="/posts/:slug" element={<SingleBlog />} />
           <Route path="/post-blog" element={<Write />} />
+          <Route path="/about" element={<About />} />
         </Route>
 
         {/* Auth pages outside Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

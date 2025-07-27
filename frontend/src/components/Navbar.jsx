@@ -1,37 +1,39 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="bg-white hidden md:flex py-4 px-8">
-        <div className="flex items-center justify-center max-w-7xl mx-auto w-full">
+      <nav className="bg-white hidden dark:bg-black md:flex  py-4 px-8">
+        <div className="flex items-center justify-center  max-w-7xl mx-auto w-full">
           <div className="flex gap-8">
             <a
               href="#"
-              className="text-black hover:text-gray-600 transition-colors font-medium"
+              className="text-black dark:text-white hover:text-gray-600 transition-colors font-medium"
             >
               Home
             </a>
             <a
               href="#"
-              className="text-black hover:text-gray-600 transition-colors font-medium"
+              className="text-black dark:text-white hover:text-gray-600 transition-colors font-medium"
             >
               Trending
             </a>
             <a
               href="#"
-              className="text-black hover:text-gray-600 transition-colors font-medium"
+              className="text-black dark:text-white hover:text-gray-600 transition-colors font-medium"
             >
               Most Popular
             </a>
-            <a
-              href="#"
-              className="text-black hover:text-gray-600 transition-colors font-medium"
+            <Link
+              to="/about"
+              className="text-black dark:text-white text-md font-medium  transition-colors"
+              onClick={() => setOpen(false)}
             >
               About
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

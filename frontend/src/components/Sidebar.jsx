@@ -52,37 +52,37 @@ const Sidebar = () => {
         <div className="flex flex-wrap gap-2">
           <Link
             to="/posts"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             All
           </Link>
           <Link
             to="/posts?cat=players"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             Players
           </Link>
           <Link
             to="/posts?cat=legends"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             Legends
           </Link>
           <Link
             to="/posts?cat=matches"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             Matches
           </Link>
           <Link
             to="/posts?cat=leagues"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             Leagues
           </Link>
           <Link
             to="/posts?cat=young-stars"
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:text-white transition-colors duration-200 font-medium"
           >
             Young Stars
           </Link>

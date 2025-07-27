@@ -3,7 +3,7 @@ import { SignUp } from "@clerk/clerk-react";
 
 const Register = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center  dark:text-white dark:bg-black items-center min-h-screen bg-gray-100">
       <SignUp
         signInUrl="/login"
         appearance={{

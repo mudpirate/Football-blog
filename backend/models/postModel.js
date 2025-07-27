@@ -32,7 +32,7 @@ const postSchema = new mongoose.Schema(
     },
     isFeatured: {
       type: Boolean,
-      deafault: false,
+      default: false,
     },
     visit: {
       type: Number,

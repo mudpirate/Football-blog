@@ -8,7 +8,7 @@ const HomePage = () => {
   return (
     <div>
       <Hero />
-      <div className="flex  flex-col">
+      <div className="flex flex-col">
         <Categories />
         <PostList />
       </div>

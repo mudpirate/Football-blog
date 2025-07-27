@@ -1,63 +1,103 @@
-import { IKContext, IKUpload } from "imagekitio-react";
+import {
+  ImageKitAbortError,
+  ImageKitInvalidRequestError,
+  ImageKitServerError,
+  ImageKitUploadNetworkError,
+  upload,
+} from "@imagekit/react";
 import { useRef } from "react";
-import { toast } from "react-toastify";
 
-const authenticator = async () => {
-  try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/posts/upload-auth`
-    );
+const Upload = ({ type = "image", setProgress, setData, children }) => {
+  const fileInputRef = useRef();
+  const abortController = new AbortController();
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(
-        `Request failed with status ${response.status}: ${errorText}`
+  // Authenticator for upload credentials
+  const authenticator = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/posts/upload-auth`
       );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Request failed with status ${response.status}: ${errorText}`
+        );
+      }
+      const data = await response.json();
+      const { signature, expire, token, publicKey } = data;
+      return { signature, expire, token, publicKey };
+    } catch (error) {
+      console.error("Authentication error:", error);
+      throw new Error("Authentication request failed");
+    }
+  };
+
+  const handleUpload = async (e) => {
+    const fileInput = fileInputRef.current;
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      alert("Please select a file to upload");
+      return;
     }
 
-    const data = await response.json();
-    const { signature, expire, token } = data;
-    return { signature, expire, token };
-  } catch (error) {
-    throw new Error(`Authentication request failed: ${error.message}`);
-  }
-};
+    const file = fileInput.files[0];
 
-const Upload = ({ children, type, setProgress, setData }) => {
-  const ref = useRef(null);
+    let authParams;
+    try {
+      authParams = await authenticator();
+    } catch (authError) {
+      console.error("Failed to authenticate for upload:", authError);
+      return;
+    }
 
-  const onError = (err) => {
-    console.log(err);
-    toast.error("Image upload failed!");
-  };
-  const onSuccess = (res) => {
-    console.log(res);
-    setData(res);
-  };
-  const onUploadProgress = (progress) => {
-    console.log(progress);
-    setProgress(Math.round((progress.loaded / progress.total) * 100));
+    const { signature, expire, token, publicKey } = authParams;
+
+    try {
+      const uploadResponse = await upload({
+        expire,
+        token,
+        signature,
+        publicKey,
+        file,
+        fileName: file.name,
+        onProgress: (event) => {
+          const percent = Math.round((event.loaded / event.total) * 100);
+          setProgress && setProgress(percent);
+        },
+        abortSignal: abortController.signal,
+      });
+
+      setData && setData(uploadResponse);
+    } catch (error) {
+      if (error instanceof ImageKitAbortError) {
+        console.error("Upload aborted:", error.reason);
+      } else if (error instanceof ImageKitInvalidRequestError) {
+        console.error("Invalid request:", error.message);
+      } else if (error instanceof ImageKitUploadNetworkError) {
+        console.error("Network error:", error.message);
+      } else if (error instanceof ImageKitServerError) {
+        console.error("Server error:", error.message);
+      } else {
+        console.error("Upload error:", error);
+      }
+    }
   };
 
   return (
-    <IKContext
-      publicKey={import.meta.env.VITE_IK_PUBLIC_KEY}
-      urlEndpoint={import.meta.env.VITE_IK_URL_ENDPOINT}
-      authenticator={authenticator}
-    >
-      <IKUpload
-        useUniqueFileName
-        onError={onError}
-        onSuccess={onSuccess}
-        onUploadProgress={onUploadProgress}
-        className="hidden"
-        ref={ref}
+    <div className="inline-block">
+      <input
+        type="file"
+        ref={fileInputRef}
         accept={`${type}/*`}
+        className="hidden"
+        onChange={handleUpload}
       />
-      <div className="cursor-pointer" onClick={() => ref.current.click()}>
+      <div
+        onClick={() => fileInputRef.current?.click()}
+        className="cursor-pointer"
+      >
         {children}
       </div>
-    </IKContext>
+    </div>
   );
 };
 
