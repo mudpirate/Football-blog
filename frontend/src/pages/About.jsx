@@ -3,16 +3,16 @@ import React from "react";
 const About = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 dark:text-white dark:bg-black py-12 text-gray-800">
-      <h1 className="text-4xl font-bold text-center mb-6 text-black">
+      <h1 className="text-4xl font-bold dark:text-white text-center mb-6 text-black">
         About The Pitch
       </h1>
 
-      <p className="text-lg mb-6 leading-relaxed">
-        <strong>The Pitch</strong> is your home ground for everything football.
-        Whether you're a die-hard fan, a stats nerd, or a curious newcomer to
-        the beautiful game, this blog is built for you. From legendary players
-        and tactical deep-dives to match previews, transfers, and rising stars —
-        we cover it all.
+      <p className="text-lg  mb-6 leading-relaxed">
+        <strong className="dark:text-white">The Pitch</strong> is your home
+        ground for everything football. Whether you're a die-hard fan, a stats
+        nerd, or a curious newcomer to the beautiful game, this blog is built
+        for you. From legendary players and tactical deep-dives to match
+        previews, transfers, and rising stars — we cover it all.
       </p>
 
       <p className="text-lg mb-6 leading-relaxed">

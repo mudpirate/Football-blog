@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Search = () => {
+  const location = useLocation();
+  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      const trimmedQuery = query.trim();
+      if (location.pathname === "/posts") {
+        setSearchParams({
+          ...Object.fromEntries(searchParams.entries()),
+          search: trimmedQuery,
+        });
+      } else {
+        setSearchParams({ search: trimmedQuery });
+      }
+    }
+  };
   return (
     <div className="relative  ">
-      <div className="flex items-center bg-gray-50 border dark:text-white dark:bg-black  border-gray-200 rounded-lg px-4 py-3 focus-within:bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-200">
+      <div className="flex items-center px-2 py-2 bg-gray-50 w-50 dark:text-white dark:bg-black   rounded-lg sm:px-4 sm:py-3 focus-within:bg-white focus-within:ring-2 transition-all duration-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -22,6 +40,8 @@ const Search = () => {
         <input
           type="text"
           placeholder="Search articles..."
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="ml-3 bg-transparent outline-none text-gray-900 placeholder-gray-500 text-sm w-full"
         />
       </div>

@@ -11,6 +11,8 @@ import { useUser } from "@clerk/clerk-react";
 import { FaFacebook } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { IoLogoWhatsapp } from "react-icons/io";
+import { Toaster } from "react-hot-toast";
+import Bookmarks from "../components/Bookmarks";
 
 const SingleBlog = () => {
   const { slug } = useParams();
@@ -60,11 +62,12 @@ const SingleBlog = () => {
     );
 
   return (
-    <div className="min-h-screen  pb-10">
+    <div className="min-h-screen pb-10">
+      <Toaster position="top-center" />
       <div className="max-w-7xl mx-auto  px-2 sm:px-4 lg:px-8 py-6">
         <div className="flex flex-col  lg:flex-row gap-5">
           {/* Main Content */}
-          <div className="flex-1 ">
+          <div className="flex-1 border-1 ">
             <div className="bg-white dark:text-white dark:bg-black  shadow-xl p-6 lg:p-10">
               <PostMenuAction post={data} />
               {data?.img && (
@@ -72,7 +75,7 @@ const SingleBlog = () => {
                   <div className="w-full max-h-[90vh] overflow-hidden  shadow-lg">
                     <Image1
                       src={data.img}
-                      className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                      className="w-full h-full object-cover object-center transition-transform duration-300 "
                     />
                   </div>
                 </div>
@@ -80,25 +83,28 @@ const SingleBlog = () => {
               <div className="flex flex-col gap-4 mt-2">
                 <div className="flex items-center gap-3 text-gray-500 text-sm mb-2">
                   <span className="inline-flex items-center gap-1">
-                    <Image1
-                      className="w-7 h-7 rounded-full dark:text-white dark:bg-black  object-cover border border-gray-200"
-                      src={data.user?.img}
-                    />
+                    {data?.user?.img && (
+                      <Image1
+                        className="w-7 h-7 rounded-full dark:text-white dark:bg-black  object-cover border border-gray-200"
+                        src={data?.user?.img}
+                      />
+                    )}
+
                     <span className="font-semibold dark:text-white dark:bg-black  text-black capitalize px-3 py-1 rounded-full text-xs bg-gray-200">
-                      {data.user?.username}
+                      {data?.user?.username || "unknown"}
                     </span>
                   </span>
 
                   <span className=" text-black capitalize dark:text-white dark:bg-black  bg-gray-200 px-3 py-1 text-xs rounded-xl">
-                    {data.category}
+                    {data?.category}
                   </span>
 
                   <span className=" text-black dark:text-white dark:bg-black  bg-gray-200 px-3 py-1 text-xs rounded-xl">
-                    {format(data.createdAt)}
+                    {format(data?.createdAt)}
                   </span>
                 </div>
                 <h1 className="text-4xl dark:text-white dark:bg-black  font-extrabold text-gray-900 leading-tight mb-2">
-                  {data.title}
+                  {data?.title}
                 </h1>
 
                 {data?.desc && (
@@ -109,18 +115,18 @@ const SingleBlog = () => {
                 <div className="prose prose-lg max-w-none mt-2 text-justify text-gray-900">
                   <div
                     className="blog-content dark:text-white dark:bg-black "
-                    dangerouslySetInnerHTML={{ __html: data.content }}
+                    dangerouslySetInnerHTML={{ __html: data?.content }}
                   />
                 </div>
               </div>
               {/* Divider */}
               <div className="my-10 border-t border-gray-200" />
               {/* Comments Section */}
-              <div className="mt-8">
+              <div className="mt-8 ">
                 <h2 className="text-2xl font-bold dark:text-white dark:bg-black  text-gray-800 mb-4">
                   Comments
                 </h2>
-                <Comments postId={data._id} />
+                <Comments postId={data?._id} />
               </div>
             </div>
           </div>
@@ -128,12 +134,15 @@ const SingleBlog = () => {
           {/* Sidebar */}
           <aside className="w-full lg:w-80 flex-shrink-0 space-y-8">
             {/* Search */}
-            <div className="bg-white dark:text-white dark:bg-black   p-6 shadow-md">
+            <div className="bg-white border dark:text-white dark:bg-black   p-6 shadow-md">
               <Search />
+            </div>
+            <div className="bg-white border dark:text-white dark:bg-black p-3 shadow-md">
+              <Bookmarks />
             </div>
 
             {recentPosts && (
-              <div className="bg-white dark:text-white dark:bg-black  p-6 shadow-md">
+              <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md">
                 <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                   Recent Posts
                 </h3>
@@ -152,7 +161,7 @@ const SingleBlog = () => {
                           />
                         </div>
                         <div>
-                          <p className="text-sm dark:text-white dark:bg-black  text-gray-700 font-semibold line-clamp-2 group-hover:text-blue-700 transition">
+                          <p className="text-sm dark:text-white dark:bg-black  text-gray-700 font-semibold line-clamp-2 transition">
                             {post.title}
                           </p>
                           <span className="text-xs text-gray-500">
@@ -167,15 +176,18 @@ const SingleBlog = () => {
             )}
 
             {/* Author Info */}
-            <div className="bg-white  dark:text-white dark:bg-black  p-6 shadow-md flex flex-col items-center text-center">
+            <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md flex flex-col items-center text-center">
               <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-3 overflow-hidden">
-                <Image1
-                  className="w-full h-full object-cover rounded-full"
-                  src={data.user?.img}
-                />
+                {(data?.user?.img && (
+                  <Image1
+                    className="w-full h-full object-cover rounded-full"
+                    src={data?.user?.img}
+                  />
+                )) ||
+                  "Unknown"}
               </div>
               <p className="font-bold  dark:text-white dark:bg-black text-lg capitalize text-gray-900">
-                {data.user?.username}
+                {data?.user?.username}
               </p>
               <p className="text-sm text-gray-500 mb-2">Football Analyst</p>
               <p className="text-xs text-gray-400">
@@ -184,50 +196,50 @@ const SingleBlog = () => {
             </div>
 
             {/* Categories */}
-            <div className="bg-white dark:text-white dark:bg-black  p-6 shadow-md">
+            <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md">
               <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                 Categories
               </h3>
               <div className="space-y-2">
                 <Link
                   to="/"
-                  className="block dark:text-white dark:bg-black  px-3 py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block dark:text-white dark:bg-black  px-3 py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   All blogs
                 </Link>
                 <Link
                   to="/category/players"
-                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   Players
                 </Link>
                 <Link
                   to="/category/legends"
-                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   Legends
                 </Link>
                 <Link
                   to="/category/matches"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200  rounded-lg transition-colors duration-200 font-medium"
                 >
                   Matches
                 </Link>
                 <Link
                   to="/category/leagues"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   Leagues
                 </Link>
                 <Link
                   to="/category/transfers"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   Transfers
                 </Link>
                 <Link
                   to="/category/young-stars"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-blue-50  rounded-lg transition-colors duration-200 font-medium"
+                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
                 >
                   Young stars
                 </Link>
@@ -237,23 +249,23 @@ const SingleBlog = () => {
             {/* you may like */}
 
             {/* Social Share */}
-            <div className="fixed left-0 top-1/2 dark:text-white dark:bg-black  bg-white px-6 py-4 rounded-xl  w-10 flex flex-col items-center gap-4">
+            <div className="fixed left-1 top-1/2 dark:text-white dark:bg-black    px-6 py-4 rounded-xl  w-10 flex flex-col items-center gap-4">
               <button
-                className="bg-black text-white p-2 rounded-full hover:bg-blue-700 transition duration-200"
+                className="bg-black text-white p-2 rounded-full cursor-pointer hover:bg-blue-700 transition duration-200"
                 aria-label="Share on Facebook"
               >
                 <FaFacebook size={20} />
               </button>
 
               <button
-                className="bg-black text-white p-2 rounded-full hover:bg-gray-800 transition duration-200"
+                className="bg-black text-white p-2 rounded-full cursor-pointer hover:bg-gray-800 transition duration-200"
                 aria-label="Share on Twitter"
               >
                 <FaSquareXTwitter size={20} />
               </button>
 
               <button
-                className="bg-black text-white p-2 rounded-full hover:bg-green-600 transition duration-200"
+                className="bg-black text-white p-2 rounded-full cursor-pointer hover:bg-green-600 transition duration-200"
                 aria-label="Share on WhatsApp"
               >
                 <IoLogoWhatsapp size={20} />

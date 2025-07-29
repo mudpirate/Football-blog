@@ -1,130 +1,110 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import { useState } from "react";
 import logo from "../assets/logo.png";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DarkModeSwitc from "./themeToggle";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  useAuth,
-  UserButton,
-} from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { useScrollStore } from "./zustandStore";
 
 const Top = () => {
   const [open, setOpen] = useState(false);
-  // const { getToken } = useAuth();
+  const targetRef = useScrollStore((state) => state.targetRef);
 
-  // useEffect(() => {
-  //   getToken().then((token) => console.log(token));
-  // }, []);
+  const handleScroll = () => {
+    targetRef?.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div className="bg-white border-b border-black dark:bg-black py-2 px-4 shadow-sm">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Left: Search */}
-        <div className="flex gap-2 items-center">
-          <button className="bg-white text-black px-3 py-2 rounded-full hover:bg-gray-200 transition-colors text-sm font-medium flex items-center">
-            <GoSearch className="w-5 h-5 dark:text-black" />
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Left: Search & Add */}
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
+          <button
+            onClick={handleScroll}
+            className="bg-white text-black px-2 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-gray-200 transition text-sm font-medium flex items-center"
+          >
+            <GoSearch className="w-5 h-5 hidden sm:flex dark:text-black" />
           </button>
-          <button>
-            <Link to="/">
-              {" "}
-              <img
-                width="40"
-                height="4"
-                className="bg-white text-black rounded-full"
-                src="https://img.icons8.com/ios-filled/50/add--v1.png"
-                alt="add--v1"
-              />
-            </Link>
-          </button>
-          <Link to="/post-blog">
-            {" "}
-            <span className="font-bold dark:text-white">Add Blog</span>
-          </Link>
-        </div>
-        {/* Center: Title */}
-        <div className="flex-1 flex dark:text-white dark:bg-black  justify-center items-center">
-          <Link to="/">
+
+          <Link to="/post-blog" className="flex items-center sm:gap-2">
             <img
-              src={logo}
-              className="h-10 mr-30 w-50 dark:text-white dark:bg-black "
-              alt=""
+              width="32"
+              height="32"
+              className="rounded-full  dark:bg-white"
+              src="https://img.icons8.com/ios-filled/50/add--v1.png"
+              alt="Add"
             />
+            <span className="font-semibold text-sm sm:text-base dark:text-white hidden sm:inline">
+              Add Blog
+            </span>
           </Link>
         </div>
-        <div className="mr-3">
-          <DarkModeSwitc />
+
+        {/* Center: Logo */}
+        <div className="absolute left-1/2 transform -translate-x-1/2">
+          <Link to="/">
+            <img src={logo} className="h-10 w-auto" alt="Logo" />
+          </Link>
         </div>
-        {/* Right: Login/Menu */}
-        <div className="flex items-center gap-2">
+
+        {/* Right: Theme + Auth + Hamburger */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <DarkModeSwitc />
+
           <SignedOut>
             <Link to="/login">
-              <button className="bg-black hidden md:flex text-white px-5 py-2 rounded-md font-semibold hover:bg-gray-900 transition-colors shadow text-sm md:text-base">
+              <button className="bg-black text-white px-4 py-1.5 sm:px-5 sm:py-2 rounded-md font-medium hover:bg-gray-900 transition hidden md:flex text-sm md:text-base">
                 LOGIN
               </button>
             </Link>
           </SignedOut>
+
           <SignedIn>
             <UserButton />
           </SignedIn>
+
+          {/* Mobile hamburger */}
           <button
             onClick={() => setOpen((prev) => !prev)}
-            className="text-2xl md:hidden font-bold text-gray-700 focus:outline-none"
-            aria-label="Open menu"
+            className="text-2xl md:hidden text-gray-700 dark:text-white"
+            aria-label="Menu"
           >
             ☰
           </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
       {open && (
-        <div className="fixed inset-y-0 left-0 w-[100vw] z-50 ">
-          {/* Menu panel */}
-          <div className="relative bg-white w-[100vw]  h-full shadow-lg p-8 flex flex-col gap-8 ">
+        <div className="fixed inset-0 z-50 bg-white dark:bg-black">
+          <div className="p-8 flex flex-col h-full">
             <button
               onClick={() => setOpen(false)}
-              className="self-end text-2xl text-gray-700 hover:text-blue-600 focus:outline-none"
-              aria-label="Close menu"
+              className="self-end text-2xl text-gray-700 hover:text-blue-600 dark:text-white"
             >
               ✕
             </button>
-            <nav className="flex flex-col gap-6 mt-4">
-              <a
-                href="#"
-                className="text-gray-700 text-lg font-medium hover:text-blue-600 transition-colors"
-                onClick={() => setOpen(false)}
-              >
+            <nav className="flex flex-col gap-6 mt-10 text-lg font-medium text-gray-700 dark:text-white">
+              <Link to="/" onClick={() => setOpen(false)}>
                 Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 text-lg font-medium hover:text-blue-600 transition-colors"
-                onClick={() => setOpen(false)}
-              >
+              </Link>
+              <Link to="/?sort=trending" onClick={() => setOpen(false)}>
                 Trending
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 text-lg font-medium hover:text-blue-600 transition-colors"
-                onClick={() => setOpen(false)}
-              >
+              </Link>
+              <Link to="/?sort=popular" onClick={() => setOpen(false)}>
                 Most Popular
-              </a>
-              <Link
-                to="/write"
-                className="text-gray-700 text-lg font-medium hover:text-blue-600 transition-colors"
-                onClick={() => setOpen(false)}
-              >
+              </Link>
+              <Link to="/about" onClick={() => setOpen(false)}>
                 About
               </Link>
-              <button
-                className="bg-black text-white px-5 py-2 rounded-md font-semibold hover:bg-gray-900 transition-colors shadow mt-4"
-                onClick={() => setOpen(false)}
-              >
-                Login
-              </button>
+
+              <SignedOut>
+                <Link to="/login" onClick={() => setOpen(false)}>
+                  <button className="bg-black text-white px-5 py-2 rounded-md font-semibold hover:bg-gray-900 transition mt-6">
+                    Login
+                  </button>
+                </Link>
+              </SignedOut>
             </nav>
           </div>
         </div>

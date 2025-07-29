@@ -2,18 +2,19 @@ import PostListItem from "./PostListItems";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useSearchParams } from "react-router-dom";
 
-const fetchPosts = async (pageParam) => {
-  // const searchParamsObj = Object.fromEntries([...searchParams]);
+const fetchPosts = async (pageParam, searchParams) => {
+  const searchParamsObj = Object.fromEntries([...searchParams]);
 
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`, {
-    params: { page: pageParam, limit: 2 },
+    params: { page: pageParam, limit: 10, ...searchParamsObj },
   });
   return res.data;
 };
 
 const PostList = () => {
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     data,
@@ -24,8 +25,8 @@ const PostList = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam),
+    queryKey: ["posts", searchParams.toString()],
+    queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam, searchParams),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) =>
       lastPage.hasMore ? pages.length + 1 : undefined,
@@ -48,7 +49,7 @@ const PostList = () => {
       }
     >
       {allPosts.map((post) => (
-        <div>
+        <div className="overflow-hidden mb-1" key={post._id}>
           <PostListItem key={post._id} post={post} />
         </div>
       ))}

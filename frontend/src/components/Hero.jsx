@@ -11,7 +11,7 @@ const Hero = () => {
         <Image1
           src="https://ik.imagekit.io/vwnheev2v/photo_6066636435563333177_w.jpg?updatedAt=1753631252982"
           alt="Picture of the author"
-          className="h-[90vh] object-cover"
+          className="h-[90vh] object-cover hover:scale-[1.01] "
         />
       </div>
       <div className="flex-1">

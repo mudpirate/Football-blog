@@ -14,6 +14,7 @@ const fetchComments = async (postId) => {
 const Comments = ({ postId }) => {
   const { user } = useUser();
   const { getToken } = useAuth();
+  const role = user?.publicMetadata?.role;
 
   const { isPending, error, data } = useQuery({
     queryKey: ["comments", postId],
@@ -25,6 +26,7 @@ const Comments = ({ postId }) => {
   const mutation = useMutation({
     mutationFn: async (newComment) => {
       const token = await getToken();
+
       return axios.post(
         `${import.meta.env.VITE_API_URL}/comments/${postId}`,
         newComment,
@@ -45,6 +47,7 @@ const Comments = ({ postId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Submitting comment..."); // DEBUG
     const formData = new FormData(e.target);
 
     const data = {
@@ -55,7 +58,8 @@ const Comments = ({ postId }) => {
   };
 
   return (
-    <div className="flex flex-col  gap-8 lg:w-3/5 mb-12">
+    <div className="flex flex-col gap-8 lg:w-3/5 mb-12">
+      <h1 className="text-xl text-gray-500 underline">Comments</h1>
       <form
         onSubmit={handleSubmit}
         className="flex items-center justify-between gap-8 w-full"

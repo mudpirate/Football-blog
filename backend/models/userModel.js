@@ -24,13 +24,8 @@ const userSchema = new mongoose.Schema(
     },
 
     savedPosts: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
       default: [],
-    },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
     },
   },
   { timestamps: true }

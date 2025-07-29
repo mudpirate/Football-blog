@@ -20,10 +20,12 @@ const Write = () => {
 
   const [value, setValue] = useState(""); // Quill content
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [cover, setCover] = useState(""); // Cover image data
   const [img, setImg] = useState(""); // Inline image
   const [video, setVideo] = useState(""); // Inline video
   const [progress, setProgress] = useState(0); // Upload progress
+  const [descAI, setDescAI] = useState(""); // AI-generated description
 
   // Insert uploaded image into editor
   useEffect(() => {
@@ -86,6 +88,38 @@ const Write = () => {
 
     mutation.mutate(data);
   };
+
+  const generateDescAI = async (e) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+    setLoading2(true);
+
+    try {
+      const formdata = new FormData(formRef.current);
+      const title = formdata.get("title");
+
+      if (!title) return toast.error("Title is required.");
+
+      const prompt = `Write a **1-paragraph short description** about on this topic "${title}"`;
+
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/posts/AI`,
+        { prompt }
+      );
+
+      if (data?.response) {
+        setDescAI(data.response.trim());
+        toast.success("🧠 Description generated!");
+      } else {
+        toast.error("No description returned.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("AI failed to generate description.");
+    } finally {
+      setLoading2(false);
+    }
+  };
   const generateAI = async () => {
     try {
       if (!formRef.current) return;
@@ -100,7 +134,7 @@ const Write = () => {
         return toast.error("Title is required.");
       }
 
-      const prompt = `You are a blog content genertor AI agent, write a blog post with proper use of headings, bold text, and spaced paragraphs on the topic: ${send.title}`;
+      const prompt = `You are a blog content genertor AI agent, write a blog post on ${send.title} `;
 
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/posts/AI`,
@@ -110,6 +144,7 @@ const Write = () => {
       if (data?.response) {
         const html = marked.parse(data.response);
         const cleanHtml = DOMPurify.sanitize(html);
+
         setValue((prev) => prev + cleanHtml);
         toast.success("🧠 AI content generated!");
       } else {
@@ -139,7 +174,7 @@ const Write = () => {
             <Upload type="image" setProgress={setProgress} setData={setCover}>
               <button
                 type="button"
-                className="bg-black text-white px-4 py-2 rounded"
+                className="bg-black dark:border-1 text-white px-4 py-2 rounded"
               >
                 Upload Cover Image
               </button>
@@ -203,8 +238,16 @@ const Write = () => {
             <textarea
               name="desc"
               placeholder="Short description"
+              value={descAI}
+              onChange={(e) => setDescAI(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-900 bg-gray-50 resize-y"
             />
+            <button
+              onClick={(e) => generateDescAI(e)}
+              className="bg-black text-white rounded-xl px-3 py-2"
+            >
+              {loading2 ? "Generating..." : "Generate Description With AI"}
+            </button>
           </div>
 
           {/* --- Media Buttons --- */}
@@ -212,7 +255,7 @@ const Write = () => {
             <Upload type="image" setProgress={setProgress} setData={setImg}>
               <button
                 type="button"
-                className="bg-gray-800 text-white px-4 py-2 rounded"
+                className="bg-black rounded-xl dark:border-1 text-white px-3 py-2"
               >
                 Add Image
               </button>
@@ -221,7 +264,7 @@ const Write = () => {
             <Upload type="video" setProgress={setProgress} setData={setVideo}>
               <button
                 type="button"
-                className="bg-gray-800 text-white px-4 py-2 rounded"
+                className="bg-black rounded-xl dark:border-1   text-white px-3 py-2"
               >
                 Add Video
               </button>
@@ -239,18 +282,19 @@ const Write = () => {
           />
 
           {/* --- Buttons --- */}
-          <div className="flex justify-end gap-4">
+          <div className="flex -mt-5">
             <button
               onClick={(e) => generateAI(e)}
               type="button"
-              className="bg-black text-white px-6 py-2 rounded-xl hover:bg-black"
+              className="bg-black dark:border-1 text-white px-3 rounded-xl py-2  hover:bg-black"
             >
-              {loading ? "Generating..." : "Generate With AI"}
+              {loading ? "Generating..." : "Generate Content With AI"}
             </button>
-
+          </div>
+          <div className="justify-center flex ">
             <button
               type="submit"
-              className="bg-black text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
+              className="bg-black dark:border-1 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
               disabled={mutation.isPending || (progress > 0 && progress < 100)}
             >
               {mutation.isPending ? "Publishing..." : "Publish Post"}

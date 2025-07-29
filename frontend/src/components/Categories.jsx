@@ -1,94 +1,72 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Image1 from "./Image";
+import { useScrollStore } from "./zustandStore";
+import Search from "./Search";
+
+const categories = [
+  { label: "All Blogs", path: "/posts" },
+  { label: "Players", path: "/posts?cat=Players" },
+  { label: "Matches", path: "/posts?cat=Matches" },
+  { label: "Leagues", path: "/posts?cat=Leagues" },
+  { label: "Transfers", path: "/posts?cat=Transfers" },
+  { label: "Young Stars", path: "/posts?cat=Youngstars" },
+];
 
 const Categories = () => {
+  const navigate = useNavigate();
+  const scrollRef = useRef(null);
+  const setTargetRef = useScrollStore((state) => state.setTargetRef);
+
+  useEffect(() => {
+    setTargetRef(scrollRef); // Store the ref globally on mount
+  }, [setTargetRef]);
+
+  const handleClick = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
-      <div className="relative  ">
+      {/* --- Header Image Section --- */}
+      <div className="relative">
         <Image1
           src="/category.jpg"
           className="h-[30vh] object-cover object-bottom w-full"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
-              {" "}
-              Discover the latest in football news and analysis
-            </h1>
-          </div>
+          <h1 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-md px-2">
+            Discover the latest in football news and analysis
+          </h1>
         </div>
       </div>
 
-      <div className="flex justify-center dark:bg-black  mx-10 rounded-xl items-center h-full mb-3 bg-white shadow-lg border border-gray-200 -mt-8 relative z-10">
-        {/* Header */}
-        <div className="p-6">
-          <h2 className="text-xl font-bold text-black dark:text-white">
-            Categories
-          </h2>
-        </div>
+      {/* --- Category + Search Section --- */}
+      <div className="sm:mx-4 md:mx-10 -mt-6 relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-black shadow-lg border border-gray-200 dark:border-gray-700 sm:rounded-xl px-4 py-6">
+          {/* Left: Categories Title + Buttons */}
+          <div className="flex flex-col w-full md:w-auto">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 dark:text-white">
+              Categories
+            </h2>
+            <nav className="flex flex-wrap gap-3">
+              {categories.map((cat) => (
+                <button
+                  key={cat.label}
+                  onClick={() => handleClick(cat.path)}
+                  className="bg-white dark:bg-black dark:text-white px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 text-black sm:px-4 sm:py-2 rounded-lg transition-all duration-200 font-medium shadow-sm"
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </nav>
+          </div>
 
-        {/* Navigation Links */}
-        <div className="p-4 ">
-          <nav className="flex flex-wrap gap-3">
-            <Link
-              to="/posts"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              All Blogs
-            </Link>
-            <Link
-              to="/posts?cat=players"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              Players
-            </Link>
-            <Link
-              to="/posts?cat=matches"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              Matches
-            </Link>
-            <Link
-              to="/posts?cat=league"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              Leagues
-            </Link>
-            <Link
-              to="/posts?cat=transfers"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              Transfers
-            </Link>
-            <Link
-              to="/posts?cat=young-stars"
-              className="bg-white  dark:text-white dark:bg-black text-black px-4 py-2 rounded-lg transition-colors duration-200 font-medium shadow-sm"
-            >
-              Young Stars
-            </Link>
-          </nav>
-        </div>
-
-        {/* Search Section */}
-        <div className="p-2 gap-2 dark:text-white dark:bg-black ">
-          <div className="flex items-center  dark:text-white dark:bg-black  rounded-lg px-3 py-2 bg-gray-100 border border-gray-300 focus-within:bg-white focus-within:border-black transition-colors duration-200">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 30 30"
-              fill="#6B7280"
-              className="flex-shrink-0"
-            >
-              <path d="M13 3C7.489 3 3 7.489 3 13s4.489 10 10 10a9.95 9.95 0 0 0 6.322-2.264l5.971 5.971a1 1 0 1 0 1.414-1.414l-5.97-5.97A9.95 9.95 0 0 0 23 13c0-5.511-4.489-10-10-10m0 2c4.43 0 8 3.57 8 8s-3.57 8-8 8-8-3.57-8-8 3.57-8 8-8" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search blogs..."
-              className="w-full ml-2 bg-transparent   outline-none text-gray-900 placeholder-gray-500 text-sm"
-            />
+          {/* Right: Search */}
+          <div className="w-full md:w-auto">
+            <Search />
           </div>
         </div>
       </div>

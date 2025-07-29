@@ -3,13 +3,69 @@ import User from "../models/userModel.js";
 import ImageKit from "imagekit";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export const getPosts = async (req, res, next) => {
+export const getPosts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
 
-  const posts = await Post.find()
-    .sort({ createdAt: -1 })
+  const query = {};
+
+  const cat = req.query.cat;
+  const author = req.query.author;
+  const searchQuery = req.query.search;
+  const sortQuery = req.query.sort;
+  const featured = req.query.featured;
+
+  if (cat) {
+    query.category = cat;
+  }
+
+  if (searchQuery) {
+    query.$or = [
+      { title: { $regex: searchQuery, $options: "i" } },
+      { desc: { $regex: searchQuery, $options: "i" } },
+    ];
+  }
+  if (author) {
+    const user = await User.findOne({ username: author }).select("_id");
+
+    if (!user) {
+      return res.status(404).json("No post found!");
+    }
+
+    query.user = user._id;
+  }
+
+  let sortObj = { createdAt: -1 };
+
+  if (sortQuery) {
+    switch (sortQuery) {
+      case "newest":
+        sortObj = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortObj = { createdAt: 1 };
+        break;
+      case "mostpopular":
+        sortObj = { visit: -1 };
+        break;
+      case "trending":
+        sortObj = { visit: -1 };
+        query.createdAt = {
+          $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+        };
+        break;
+      default:
+        break;
+    }
+  }
+
+  if (featured) {
+    query.isFeatured = true;
+  }
+
+  const posts = await Post.find(query)
     .populate("user", "username")
+    .sort(sortObj)
     .limit(limit)
     .skip((page - 1) * limit);
 
@@ -60,18 +116,19 @@ export const deletePost = async (req, res, next) => {
   if (!clerkUserId) {
     return res.status(401).json("not authenticated");
   }
+  const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+  if (role === "admin") {
+    await Post.findByIdAndDelete(req.params.id);
+    return res.status(200).json("blog has been deleted");
+  }
 
   const user = await User.findOne({ clerkUserId });
-  let deletedPost;
 
-  if (user.role === "admin") {
-    deletedPost = await Post.findOneAndDelete({ _id: req.params.id });
-  } else {
-    deletedPost = await Post.findOneAndDelete({
-      _id: req.params.id,
-      user: user._id,
-    });
-  }
+  const deletedPost = await Post.findOneAndDelete({
+    _id: req.params.id,
+    user: user._id,
+  });
 
   if (!deletedPost) {
     return res.status(403).json("you can delete only your posts!");
@@ -80,28 +137,37 @@ export const deletePost = async (req, res, next) => {
   res.status(200).json("blog has been deleted");
 };
 
-export const editPost = async (req, res, next) => {
-  const { id } = req.params;
-
+export const featurePosts = async (req, res) => {
   const clerkUserId = req.auth.userId;
+  const postId = req.body.postId;
+
   if (!clerkUserId) {
-    return res.status(401).json("not authenticated");
-  }
-  const user = await User.findOne({ clerkUserId });
-
-  if (!user) {
-    return res.status(404).json("User not found");
+    return res.status(401).json("Please Login to feature Posts!");
   }
 
-  const post = await Post.findOneAndUpdate(
-    { _id: id, user: user._id },
-    req.body,
-    { new: true }
-  );
+  const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+  if (role !== "admin") {
+    return res.status(403).json("You cannot feature posts!");
+  }
+
+  const post = await Post.findById(postId);
+
   if (!post) {
-    return res.status(403).json("You are not allowed to edit this post");
+    return res.status(404).json("Post not found!");
   }
-  res.status(200).json(post);
+
+  const isFeatured = post.isFeatured;
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    postId,
+    {
+      isFeatured: !isFeatured,
+    },
+    { new: true }
+  ).sort({ createdAt: -1 });
+
+  res.status(200).json(updatedPost);
 };
 
 const imagekit = new ImageKit({

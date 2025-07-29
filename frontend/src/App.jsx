@@ -9,6 +9,7 @@ import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About from "./pages/About";
+import BookmarkPage from "./pages/BookmarkPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/posts/:slug" element={<SingleBlog />} />
           <Route path="/post-blog" element={<Write />} />
           <Route path="/about" element={<About />} />
+          <Route path="/bookmarks" element={<BookmarkPage />} />
         </Route>
 
         {/* Auth pages outside Layout */}
