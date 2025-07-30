@@ -30,8 +30,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/sign-in" element={<Navigate to="/login" />} />
-        <Route path="/sign-up" element={<Navigate to="/register" />} />
+        <Route path="/sign-in" element={<Navigate to="/login" replace />} />
+        <Route path="/sign-up" element={<Navigate to="/register" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );

@@ -7,9 +7,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import DOMPurify from "dompurify";
+import { marked } from "marked";
 
 import Upload from "../components/Upload";
-import { marked } from "marked";
 import "../index.css";
 
 const Write = () => {
@@ -18,16 +18,15 @@ const Write = () => {
   const { getToken } = useAuth();
   const navigate = useNavigate();
 
-  const [value, setValue] = useState(""); // Quill content
+  const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [cover, setCover] = useState(""); // Cover image data
-  const [img, setImg] = useState(""); // Inline image
-  const [video, setVideo] = useState(""); // Inline video
-  const [progress, setProgress] = useState(0); // Upload progress
-  const [descAI, setDescAI] = useState(""); // AI-generated description
+  const [cover, setCover] = useState("");
+  const [img, setImg] = useState("");
+  const [video, setVideo] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [descAI, setDescAI] = useState("");
 
-  // Insert uploaded image into editor
   useEffect(() => {
     if (img?.url) {
       setValue(
@@ -38,7 +37,6 @@ const Write = () => {
     }
   }, [img]);
 
-  // Insert uploaded video into editor
   useEffect(() => {
     if (video?.url) {
       setValue(
@@ -49,10 +47,10 @@ const Write = () => {
     }
   }, [video]);
 
-  // Mutation to create blog post
   const mutation = useMutation({
     mutationFn: async (newPost) => {
-      const token = await getToken();
+      const token = await getToken({ template: "blog" }); // <-- use your template name here
+      if (!token) throw new Error("No token found");
       return axios.post(`${import.meta.env.VITE_API_URL}/posts`, newPost, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +67,7 @@ const Write = () => {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formdata = new FormData(e.target);
 
@@ -79,7 +77,7 @@ const Write = () => {
       category: formdata.get("category"),
       desc: formdata.get("desc"),
       content: value,
-      filePath: cover.filePath || "", // optional
+      filePath: cover.filePath || "",
     };
 
     if (!data.title || !data.content) {
@@ -100,7 +98,7 @@ const Write = () => {
 
       if (!title) return toast.error("Title is required.");
 
-      const prompt = `Write a **1-paragraph short description** about on this topic "${title}"`;
+      const prompt = `Write a **1-paragraph short description** about this topic: "${title}"`;
 
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/posts/AI`,
@@ -120,21 +118,20 @@ const Write = () => {
       setLoading2(false);
     }
   };
+
   const generateAI = async () => {
     try {
       if (!formRef.current) return;
 
-      setLoading(true); // 🟢 Start loading
-
+      setLoading(true);
       const formdata = new FormData(formRef.current);
-      const send = {
-        title: formdata.get("title"),
-      };
-      if (!send.title && !send.desc) {
+      const title = formdata.get("title");
+
+      if (!title) {
         return toast.error("Title is required.");
       }
 
-      const prompt = `You are a blog content genertor AI agent, write a blog post on ${send.title} `;
+      const prompt = `You are a blog content generator AI agent. Write a detailed blog post about: "${title}"`;
 
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/posts/AI`,
@@ -151,10 +148,10 @@ const Write = () => {
         toast.error("No content returned by AI.");
       }
     } catch (err) {
-      console.error("AI generation error:", err);
+      console.error(err);
       toast.error("Failed to generate AI content.");
     } finally {
-      setLoading(false); // 🔴 End loading
+      setLoading(false);
     }
   };
 
@@ -162,63 +159,55 @@ const Write = () => {
   if (!isSignedIn) return <div>Please sign in to create a post.</div>;
 
   return (
-    <div className="flex dark:text-white dark:bg-black border justify-center items-center min-h-screen bg-gray-100 py-10 px-6">
-      <div className="bg-white w-90 border sm:w-full dark:text-white dark:bg-black  rounded-xl shadow-lg p-7  max-w-3xl">
-        <h1 className="text-3xl dark:text-white dark:bg-black  font-bold text-center  text-gray-900 mb-8">
+    <div className="flex dark:text-white dark:bg-black justify-center items-center min-h-screen bg-gray-100 py-10 px-6">
+      <div className="bg-white dark:bg-black w-full max-w-3xl rounded-xl shadow-lg p-7">
+        <h1 className="text-3xl font-bold text-center mb-8 dark:text-white">
           Create New Blog
         </h1>
 
         <form onSubmit={handleSubmit} ref={formRef} className="space-y-8">
-          {/* --- Cover Image Upload --- */}
           <div>
             <Upload type="image" setProgress={setProgress} setData={setCover}>
               <button
                 type="button"
-                className="bg-black dark:border-1 text-white px-4 py-2 rounded"
+                className="bg-black text-white px-4 py-2 rounded"
               >
                 Upload Cover Image
               </button>
             </Upload>
-
             {progress > 0 && progress < 100 && (
               <p className="mt-2 text-sm text-blue-600">
                 Uploading: {progress}%
               </p>
             )}
-
             {cover?.url && (
-              <div className="mt-4">
-                <img
-                  src={cover.url}
-                  alt="Cover Preview"
-                  className="w-full max-h-100 object-cover object-center rounded-lg border shadow"
-                />
-              </div>
+              <img
+                src={cover.url}
+                alt="Cover"
+                className="mt-4 w-full max-h-100 object-cover rounded-lg shadow"
+              />
             )}
           </div>
 
-          {/* --- Title --- */}
           <div>
-            <label className="block dark:text-white dark:bg-black  text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2 dark:text-white">
               Title
             </label>
             <input
               type="text"
               name="title"
-              placeholder="Enter title"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-900 bg-gray-50"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500 bg-gray-50 dark:text-black"
               required
             />
           </div>
 
-          {/* --- Category --- */}
           <div>
-            <label className="block text-sm dark:text-white dark:bg-black  font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2 dark:text-white">
               Category
             </label>
             <select
               name="category"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-900 bg-gray-50"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500 bg-gray-50 dark:text-black"
             >
               <option value="General">General</option>
               <option value="Players">Players</option>
@@ -230,9 +219,8 @@ const Write = () => {
             </select>
           </div>
 
-          {/* --- Description --- */}
           <div>
-            <label className="block text-sm dark:text-white dark:bg-black  font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2 dark:text-white">
               Description
             </label>
             <textarea
@@ -240,62 +228,59 @@ const Write = () => {
               placeholder="Short description"
               value={descAI}
               onChange={(e) => setDescAI(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-900 bg-gray-50 resize-y"
+              className="w-full px-4 py-3 border rounded-lg bg-gray-50 dark:text-black resize-y"
             />
             <button
-              onClick={(e) => generateDescAI(e)}
-              className="bg-black text-white rounded-xl px-3 py-2"
+              onClick={generateDescAI}
+              className="bg-black mt-2 text-white px-3 py-2 rounded-xl"
+              type="button"
             >
               {loading2 ? "Generating..." : "Generate Description With AI"}
             </button>
           </div>
 
-          {/* --- Media Buttons --- */}
           <div className="flex gap-2">
             <Upload type="image" setProgress={setProgress} setData={setImg}>
               <button
                 type="button"
-                className="bg-black rounded-xl dark:border-1 text-white px-3 py-2"
+                className="bg-black text-white px-3 py-2 rounded-xl"
               >
                 Add Image
               </button>
             </Upload>
-
             <Upload type="video" setProgress={setProgress} setData={setVideo}>
               <button
                 type="button"
-                className="bg-black rounded-xl dark:border-1   text-white px-3 py-2"
+                className="bg-black text-white px-3 py-2 rounded-xl"
               >
                 Add Video
               </button>
             </Upload>
           </div>
 
-          {/* --- Quill Editor --- */}
-
           <ReactQuill
             theme="snow"
-            className="bg-white shadow rounded-lg"
             value={value}
             onChange={setValue}
+            className="bg-white shadow rounded-lg"
             readOnly={progress > 0 && progress < 100}
           />
 
-          {/* --- Buttons --- */}
-          <div className="flex -mt-5">
+          <div className="flex">
             <button
-              onClick={(e) => generateAI(e)}
+              onClick={generateAI}
               type="button"
-              className="bg-black dark:border-1 text-white px-3 rounded-xl py-2  hover:bg-black"
+              className="bg-black text-white px-3 py-2 rounded-xl mt-4"
             >
               {loading ? "Generating..." : "Generate Content With AI"}
             </button>
           </div>
-          <div className="justify-center flex ">
+
+          <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-black  text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
               disabled={mutation.isPending || (progress > 0 && progress < 100)}
+              className="bg-black text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 disabled:bg-gray-400"
             >
               {mutation.isPending ? "Publishing..." : "Publish Post"}
             </button>
