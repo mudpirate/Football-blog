@@ -3,7 +3,7 @@ import Image1 from "../components/Image";
 import PostMenuAction from "../components/PostMenuAction";
 import { Link, useParams } from "react-router-dom";
 import Search from "../components/Search";
-import Comments from "../components/comments";
+import Comments from "../components/Comments";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { format } from "timeago.js";
