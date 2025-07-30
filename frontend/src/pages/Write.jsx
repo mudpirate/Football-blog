@@ -162,8 +162,8 @@ const Write = () => {
   if (!isSignedIn) return <div>Please sign in to create a post.</div>;
 
   return (
-    <div className="flex  dark:text-white dark:bg-black  justify-center items-center min-h-screen bg-gray-100 py-10 px-2">
-      <div className="bg-white dark:text-white dark:bg-black  rounded-xl shadow-lg p-8 w-full max-w-2xl">
+    <div className="flex dark:text-white dark:bg-black border justify-center items-center min-h-screen bg-gray-100 py-10 px-6">
+      <div className="bg-white w-90 border sm:w-full dark:text-white dark:bg-black  rounded-xl shadow-lg p-7  max-w-3xl">
         <h1 className="text-3xl dark:text-white dark:bg-black  font-bold text-center  text-gray-900 mb-8">
           Create New Blog
         </h1>
@@ -191,7 +191,7 @@ const Write = () => {
                 <img
                   src={cover.url}
                   alt="Cover Preview"
-                  className="w-full max-h-64 object-cover rounded-lg border shadow"
+                  className="w-full max-h-100 object-cover object-center rounded-lg border shadow"
                 />
               </div>
             )}
@@ -294,7 +294,7 @@ const Write = () => {
           <div className="justify-center flex ">
             <button
               type="submit"
-              className="bg-black dark:border-1 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
+              className="bg-black  text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-blue-400 disabled:cursor-not-allowed"
               disabled={mutation.isPending || (progress > 0 && progress < 100)}
             >
               {mutation.isPending ? "Publishing..." : "Publish Post"}

@@ -64,10 +64,10 @@ const SingleBlog = () => {
   return (
     <div className="min-h-screen pb-10">
       <Toaster position="top-center" />
-      <div className="max-w-7xl mx-auto  px-2 sm:px-4 lg:px-8 py-6">
-        <div className="flex flex-col  lg:flex-row gap-5">
+      <div className="max-w-7xl  px-2 sm:px-4 lg:px-8 py-6">
+        <div className="flex flex-col w-95 md:w-full lg:flex-row gap-5">
           {/* Main Content */}
-          <div className="flex-1 border-1 ">
+          <div className="flex-1 border-1 w-full sm:w-full ">
             <div className="bg-white dark:text-white dark:bg-black  shadow-xl p-6 lg:p-10">
               <PostMenuAction post={data} />
               {data?.img && (
@@ -137,12 +137,12 @@ const SingleBlog = () => {
             <div className="bg-white border dark:text-white dark:bg-black   p-6 shadow-md">
               <Search />
             </div>
-            <div className="bg-white border dark:text-white dark:bg-black p-3 shadow-md">
+            <div className="bg-white border dark:text-white w-95 sm:w-full dark:bg-black p-3 shadow-md">
               <Bookmarks />
             </div>
 
             {recentPosts && (
-              <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md">
+              <div className="bg-white border w-95 sm:w-full dark:text-white dark:bg-black  p-6 shadow-md">
                 <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                   Recent Posts
                 </h3>
@@ -176,7 +176,7 @@ const SingleBlog = () => {
             )}
 
             {/* Author Info */}
-            <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md flex flex-col items-center text-center">
+            <div className="bg-white w-95 sm:w-full border dark:text-white dark:bg-black  p-6 shadow-md flex flex-col items-center text-center">
               <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-3 overflow-hidden">
                 {(data?.user?.img && (
                   <Image1
@@ -196,7 +196,7 @@ const SingleBlog = () => {
             </div>
 
             {/* Categories */}
-            <div className="bg-white border dark:text-white dark:bg-black  p-6 shadow-md">
+            <div className="bg-white w-95 sm:w-full border dark:text-white dark:bg-black  p-6 shadow-md">
               <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                 Categories
               </h3>

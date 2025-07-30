@@ -10,7 +10,7 @@ const HomePage = () => {
       <Hero />
       <div className="flex flex-col">
         <Categories />
-        <div className="flex  justify-center ml-90 items-center">
+        <div>
           <PostList />
         </div>
       </div>

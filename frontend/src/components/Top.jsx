@@ -21,9 +21,9 @@ const Top = () => {
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
           <button
             onClick={handleScroll}
-            className="bg-white text-black px-2 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-gray-200 transition text-sm font-medium flex items-center"
+            className="bg-white text-black hidden sm:flex px-2 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-gray-200 transition text-sm font-medium items-center"
           >
-            <GoSearch className="w-5 h-5 hidden sm:flex dark:text-black" />
+            <GoSearch className="w-5 h-5  dark:text-black" />
           </button>
 
           <Link to="/post-blog" className="flex items-center sm:gap-2">

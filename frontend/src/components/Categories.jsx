@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image1 from "./Image";
 import { useScrollStore } from "./zustandStore";
@@ -14,6 +14,7 @@ const categories = [
 ];
 
 const Categories = () => {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const setTargetRef = useScrollStore((state) => state.setTargetRef);
@@ -45,18 +46,28 @@ const Categories = () => {
 
       {/* --- Category + Search Section --- */}
       <div className="sm:mx-4 md:mx-10 -mt-6 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-black shadow-lg border border-gray-200 dark:border-gray-700 sm:rounded-xl px-4 py-6">
+        <div className="flex flex-col md:flex-row items-center md:justify-around gap-4 bg-white dark:bg-black shadow-lg border border-gray-200 dark:border-gray-700 sm:rounded-xl px-4 py-6">
           {/* Left: Categories Title + Buttons */}
           <div className="flex flex-col w-full md:w-auto">
-            <h2 className="text-lg sm:text-xl font-bold mb-3 dark:text-white">
-              Categories
-            </h2>
-            <nav className="flex flex-wrap gap-3">
+            <div
+              onClick={() => setOpen((prev) => !prev)}
+              className=" md:hidden w-full flex justify-center justify-items-center-safe"
+            >
+              <p className="text-lg bg-black w-50 md:w-60 rounded-xl cursor-pointer flex justify-center  items-center p-2 text-white  sm:text-xl font-bold mb-3 dark:text-white">
+                Categories
+              </p>
+            </div>
+
+            <nav
+              className={`flex flex-col gap-1 ${
+                open ? "block" : "hidden"
+              } md:flex md:flex-row md:gap-2`}
+            >
               {categories.map((cat) => (
                 <button
                   key={cat.label}
                   onClick={() => handleClick(cat.path)}
-                  className="bg-white dark:bg-black dark:text-white px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 text-black sm:px-4 sm:py-2 rounded-lg transition-all duration-200 font-medium shadow-sm"
+                  className="bg-white  dark:bg-black dark:text-white px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 text-black sm:px-4 sm:py-2 rounded-lg transition-all duration-200 font-medium shadow-sm"
                 >
                   {cat.label}
                 </button>
@@ -65,7 +76,7 @@ const Categories = () => {
           </div>
 
           {/* Right: Search */}
-          <div className="w-full md:w-auto">
+          <div className="flex items-center md:w-auto">
             <Search />
           </div>
         </div>

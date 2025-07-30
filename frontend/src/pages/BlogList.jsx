@@ -29,7 +29,7 @@ const BlogList = () => {
         </h1>
 
         {/* Mobile Filter Toggle */}
-        <div className="flex justify-end mb-6 md:hidden">
+        <div className="flex justify-center mb-6 md:hidden">
           <button
             className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition duration-200 shadow"
             onClick={() => setOpen((prev) => !prev)}
@@ -42,7 +42,7 @@ const BlogList = () => {
         <div className="flex flex-col-reverse md:flex-row ">
           {/* Post List */}
           <div className="flex-1  ">
-            <div className=" dark:bg-black w-[70vw] rounded-xl ">
+            <div className=" dark:bg-black rounded-xl ">
               <PostList />
             </div>
           </div>
