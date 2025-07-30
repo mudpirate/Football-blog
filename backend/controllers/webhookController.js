@@ -35,7 +35,9 @@ export const clerkWebHook = async (req, res) => {
           (data.first_name && data.last_name
             ? `${data.first_name}${data.last_name}`
             : data.id),
-        email: data.email_addresses?.[0]?.email_address,
+        email:
+          data.email_addresses?.[0]?.email_address ||
+          `${data.id}@noemail.clerk.dev`,
         img: data.profile_image_url,
       });
 
