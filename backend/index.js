@@ -22,7 +22,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+
 app.use(ClerkExpressWithAuth());
 app.use(clerkMiddleware());
 
