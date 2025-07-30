@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BlogList from "./pages/BlogList";
@@ -29,6 +29,9 @@ function App() {
         {/* Auth pages outside Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/sign-in" element={<Navigate to="/login" />} />
+        <Route path="/sign-up" element={<Navigate to="/register" />} />
       </Routes>
     </div>
   );
