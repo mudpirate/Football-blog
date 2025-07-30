@@ -13,7 +13,6 @@ const HomePage = () => {
         <Categories />
         <div className="dark:bg-black ">
           <PostList />
-          <Sidebar />
         </div>
       </div>
     </div>
