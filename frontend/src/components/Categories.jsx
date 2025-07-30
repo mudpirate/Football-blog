@@ -67,7 +67,7 @@ const Categories = () => {
                 <button
                   key={cat.label}
                   onClick={() => handleClick(cat.path)}
-                  className="bg-white  dark:bg-black dark:text-white px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 text-black sm:px-4 sm:py-2 rounded-lg transition-all duration-200 font-medium shadow-sm"
+                  className="bg-white border dark:bg-black dark:text-white px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 text-black sm:px-4 sm:py-2 rounded-lg transition-all duration-200 font-medium shadow-sm"
                 >
                   {cat.label}
                 </button>
@@ -76,7 +76,7 @@ const Categories = () => {
           </div>
 
           {/* Right: Search */}
-          <div className="flex items-center md:w-auto">
+          <div className="flex border rounded items-center md:w-auto">
             <Search />
           </div>
         </div>

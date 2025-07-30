@@ -13,7 +13,7 @@ import BookmarkPage from "./pages/BookmarkPage";
 
 function App() {
   return (
-    <div>
+    <div className="theme-wrapper">
       <ToastContainer position="bottom-right" />
       <Routes>
         {/* Wrap all main pages with Layout */}

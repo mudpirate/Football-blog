@@ -6,8 +6,8 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="bg-white hidden dark:bg-black md:flex py-4 px-8">
-        <div className="flex items-center justify-center  max-w-7xl mx-auto w-full">
+      <nav className=" hidden  dark:bg-black md:flex py-4 px-10">
+        <div className="flex items-center justify-center  max-w-7xl w-full">
           <div className="flex gap-8">
             <NavLink
               to="/"
@@ -21,12 +21,7 @@ const Navbar = () => {
             >
               Trending
             </NavLink>
-            <NavLink
-              to="/posts/?sort=mostpopular"
-              className="text-black dark:text-white hover:text-gray-600 transition-colors font-medium"
-            >
-              Most Popular
-            </NavLink>
+
             <Link
               to="/about"
               className="text-black hover:text-gray-600 dark:text-white text-md font-medium  transition-colors"

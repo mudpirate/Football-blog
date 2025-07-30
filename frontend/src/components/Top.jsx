@@ -15,10 +15,10 @@ const Top = () => {
   };
 
   return (
-    <div className="bg-white border-b border-black dark:bg-black py-2 px-4 shadow-sm">
+    <div className="bg-white border-b dark:border-b dark:border-white border-black dark:bg-black py-2 px-4 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left: Search & Add */}
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
+        <div className="flex items-center  sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
           <button
             onClick={handleScroll}
             className="bg-white text-black hidden sm:flex px-2 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-gray-200 transition text-sm font-medium items-center"
@@ -30,7 +30,7 @@ const Top = () => {
             <img
               width="32"
               height="32"
-              className="rounded-full  dark:bg-white"
+              className="rounded-full w-20 sm:w-10  dark:bg-white"
               src="https://img.icons8.com/ios-filled/50/add--v1.png"
               alt="Add"
             />
@@ -41,9 +41,9 @@ const Top = () => {
         </div>
 
         {/* Center: Logo */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
+        <div className="flex justify-center w-100 h-10">
           <Link to="/">
-            <img src={logo} className="h-10 w-auto" alt="Logo" />
+            <img src={logo} className="h-9 w-33 sm:w-50 sm:mr-20" alt="Logo" />
           </Link>
         </div>
 

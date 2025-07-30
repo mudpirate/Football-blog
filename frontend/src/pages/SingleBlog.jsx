@@ -62,13 +62,13 @@ const SingleBlog = () => {
     );
 
   return (
-    <div className="min-h-screen pb-10">
+    <div className="min-h-screen  pb-10">
       <Toaster position="top-center" />
-      <div className="max-w-7xl  px-2 sm:px-4 lg:px-8 py-6">
+      <div className="max-w-full  flex justify-center items-center sm:px-4 lg:px-8 py-6">
         <div className="flex flex-col w-95 md:w-full lg:flex-row gap-5">
           {/* Main Content */}
-          <div className="flex-1 border-1 w-full sm:w-full ">
-            <div className="bg-white dark:text-white dark:bg-black  shadow-xl p-6 lg:p-10">
+          <div className="flex-1 bg-white dark:bg-black border-1 p-6 w-full sm:w-full ">
+            <div className=" dark:text-white px-8 py-2  dark:bg-black  shadow-xl sm:p-6 lg:p-10">
               <PostMenuAction post={data} />
               {data?.img && (
                 <div className="flex justify-center mb-6">
@@ -134,15 +134,13 @@ const SingleBlog = () => {
           {/* Sidebar */}
           <aside className="w-full lg:w-80 flex-shrink-0 space-y-8">
             {/* Search */}
-            <div className="bg-white border dark:text-white dark:bg-black   p-6 shadow-md">
-              <Search />
-            </div>
-            <div className="bg-white border dark:text-white w-95 sm:w-full dark:bg-black p-3 shadow-md">
+
+            <div className="bg-white border  dark:text-white w-95 sm:w-full dark:bg-black p-4 shadow-md">
               <Bookmarks />
             </div>
 
             {recentPosts && (
-              <div className="bg-white border w-95 sm:w-full dark:text-white dark:bg-black  p-6 shadow-md">
+              <div className="bg-white border w-95 sm:w-full dark:text-white dark:bg-black p-10 sm:p-6 shadow-md">
                 <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                   Recent Posts
                 </h3>

@@ -14,7 +14,7 @@ const Hero = () => {
           className="h-[90vh] object-cover hover:scale-[1.01] "
         />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 dark:bg-black">
         <Featured />
       </div>
     </div>

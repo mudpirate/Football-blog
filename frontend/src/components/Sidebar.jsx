@@ -23,7 +23,7 @@ const Sidebar = () => {
     }
   };
   return (
-    <div className="space-y-8">
+    <div className="md:flex md:justify-between space-y-8">
       {/* Search Section */}
       <div>
         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
@@ -36,7 +36,7 @@ const Sidebar = () => {
         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
           Filters
         </h2>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col md:flex-row md:mt-5 gap-2">
           <label className="flex items-center gap-2 dark:text-white text-gray-700">
             <input
               type="radio"
@@ -88,42 +88,42 @@ const Sidebar = () => {
           <Link
             to="/posts"
             onClick={() => categoryChange("General")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             All
           </Link>
           <Link
             to="/posts?cat=Players"
             onClick={() => categoryChange("Players")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             Players
           </Link>
           <Link
             to="/posts?cat=Legends"
             onClick={() => categoryChange("Legends")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             Legends
           </Link>
           <Link
             to="/posts?cat=Matches"
             onClick={() => categoryChange("Matches")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700  border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             Matches
           </Link>
           <Link
             to="/posts?cat=Leagues"
             onClick={() => categoryChange("Leagues")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             Leagues
           </Link>
           <Link
             to="/posts?cat=Youngstars"
             onClick={() => categoryChange("Youngstars")}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
+            className="px-4 py-2 bg-gray-100 text-gray-700 border rounded-full  hover:bg-gray-200 transition-colors duration-200 font-medium"
           >
             Young Stars
           </Link>

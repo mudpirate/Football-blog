@@ -21,8 +21,8 @@ const BlogList = () => {
   };
 
   return (
-    <div className="min-h-screen  dark:bg-black py-10 px-4">
-      <div className="max-w-7xl dark:bg-black mx-auto">
+    <div className="  dark:bg-black py-10 px-2">
+      <div className="">
         {/* Page Title */}
         <h1 className="text-4xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">
           {getHeading(category)}
@@ -39,23 +39,21 @@ const BlogList = () => {
         </div>
 
         {/* Content Layout */}
-        <div className="flex flex-col-reverse md:flex-row ">
+        <div className="flex flex-col-reverse  md:flex-col-reverse gap-6">
           {/* Post List */}
-          <div className="flex-1  ">
-            <div className=" dark:bg-black rounded-xl ">
+          <div className="flex-1">
+            <div className="dark:bg-black rounded-xl">
               <PostList />
             </div>
           </div>
 
-          {/* Sidebar (Filters) */}
+          {/* Sidebar - Visible on md+ or toggle on mobile */}
           <div
             className={`${
               open ? "block" : "hidden"
-            } md:block md:w-80 transition-all duration-300 ease-in-out`}
+            } md:block  bg-gray-100 md:w-full md:p-3 dark:bg-black shadow-lg p-6 rounded-xl`}
           >
-            <div className="bg-white dark:bg-black  shadow-lg p-6 mt-2 md:mb-0">
-              <Sidebar />
-            </div>
+            <Sidebar />
           </div>
         </div>
       </div>

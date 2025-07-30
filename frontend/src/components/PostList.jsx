@@ -49,7 +49,7 @@ const PostList = () => {
       }
     >
       {allPosts.map((post) => (
-        <div className="overflow-hidden mb-1" key={post._id}>
+        <div className="mb-1" key={post._id}>
           <PostListItem key={post._id} post={post} />
         </div>
       ))}
