@@ -4,14 +4,15 @@ import { Webhook } from "svix";
 export const clerkWebHook = async (req, res) => {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
-    throw new Error("webhook secret needed");
+    throw new Error("Webhook secret is missing");
   }
 
-  const payload = req.body;
+  const payload = req.body; // raw body
   const headers = req.headers;
 
   const wh = new Webhook(WEBHOOK_SECRET);
   let evt;
+
   try {
     evt = wh.verify(payload, headers);
   } catch (err) {
@@ -20,14 +21,20 @@ export const clerkWebHook = async (req, res) => {
     });
   }
 
-  console.log("Event data:", evt.data);
+  console.log("📦 Received Clerk event:", evt.type);
+  console.log("🔍 Event data:", evt.data);
 
   if (evt.type === "user.created") {
     try {
       const data = evt.data;
+
       const newUser = new User({
         clerkUserId: data.id,
-        username: data.username || data.first_name + data.last_name || data.id,
+        username:
+          data.username ||
+          (data.first_name && data.last_name
+            ? `${data.first_name}${data.last_name}`
+            : data.id),
         email: data.email_addresses?.[0]?.email_address,
         img: data.profile_image_url,
       });
@@ -38,4 +45,6 @@ export const clerkWebHook = async (req, res) => {
       console.error("❌ Error saving user:", err.message);
     }
   }
+
+  return res.status(200).json({ success: true }); // ✅ Always respond
 };
