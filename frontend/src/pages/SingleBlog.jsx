@@ -62,7 +62,7 @@ const SingleBlog = () => {
     );
 
   return (
-    <div className="min-h-screen  mr-5 flex justify-start pb-10">
+    <div className="min-h-screen  mr-3 flex justify-start pb-10">
       <Toaster position="top-center" />
       <div className="max-w-full  flex justify-center  items-center sm:px-4 lg:px-8 py-6">
         <div className="flex flex-col w-95 md:w-full px-1 lg:flex-row gap-5">
