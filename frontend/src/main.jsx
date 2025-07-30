@@ -16,12 +16,13 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      navigate={(to) => window.history.pushState(null, "", to)}
+    >
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <div className="theme-wrapper">
-            <App />
-          </div>
+          <App />
         </BrowserRouter>
       </QueryClientProvider>
     </ClerkProvider>

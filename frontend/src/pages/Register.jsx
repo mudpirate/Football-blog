@@ -1,21 +1,15 @@
-import React from "react";
 import { SignUp } from "@clerk/clerk-react";
 
 const Register = () => {
   return (
-    <div className="flex justify-center  dark:text-white dark:bg-black items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
       <SignUp
         signInUrl="/login"
         appearance={{
-          variables: {
-            // primary buttons and links (indigo)
-            colorText: "#1f2937", // text (gray-800)
-            colorBackground: "#ffffff", // background of the sign-up card
-          },
           elements: {
-            card: "shadow-lg rounded-xl p-6", // Tailwind classes for the card
-            formButtonPrimary: "bg-indigo-600 hover:bg-indigo-700 text-white",
-            headerTitle: "text-xl text-gray-900",
+            card: "shadow-xl border border-gray-300 rounded-lg",
+            headerTitle: "text-2xl font-bold text-center text-gray-800",
+            formButtonPrimary: "bg-blue-500 hover:bg-blue-600 text-white",
           },
         }}
       />
