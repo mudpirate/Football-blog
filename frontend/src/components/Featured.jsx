@@ -33,12 +33,12 @@ const FeaturedPosts = () => {
   if (!posts || posts.length === 0) return null;
 
   return (
-    <div className="w-full  max-w-4xl  mx-auto   sm:px-4 lg:px-6 h-[91vh] overflow-y-auto overflow-x-hidden">
+    <div className="w-full   max-w-4xl  mx-auto mt-2 px-1 sm:px-4 lg:px-6 h-[91vh] overflow-y-auto overflow-x-hidden">
       <div className="flex flex-col  gap-2 sm:gap-3 lg:gap-4">
         {posts.slice(0, 3).map((post, index) => (
           <div
             key={post._id}
-            className=" p-2 dark:text-white dark:bg-black hover:scale-[1.01] shadow hover:shadow-md transition duration-300 overflow-hidden flex flex-col sm:flex-row rounded-lg sm:rounded-none"
+            className=" p-2 dark:text-white border dark:bg-black hover:scale-[1.01] shadow hover:shadow-md transition duration-300 overflow-hidden flex flex-col sm:flex-row  sm:rounded-none"
           >
             {/* Image Section */}
             {post.img && (
@@ -48,7 +48,7 @@ const FeaturedPosts = () => {
               >
                 <Image
                   src={post.img}
-                  className="w-[90vw] rounded-xl md:w-full h-70 md:h-60 object-cover"
+                  className="w-[90vw]  md:w-full h-70 md:h-60 object-cover"
                 />
               </Link>
             )}
