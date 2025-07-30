@@ -5,7 +5,7 @@ import cors from "cors";
 import userRouter from "./routes/userRoutes.js";
 import postRouter from "./routes/postRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
-import webhookRouter from "./routes/webhookRoutes.js";
+import webhookRouter from "./routes/webHookRoutes.js";
 
 import { ClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
 import { clerkMiddleware } from "@clerk/express";
