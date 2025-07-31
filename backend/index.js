@@ -23,6 +23,10 @@ app.use(
   })
 );
 
+app.get("/ping", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use(ClerkExpressWithAuth());
 app.use(clerkMiddleware());
 
