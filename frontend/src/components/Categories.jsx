@@ -76,7 +76,7 @@ const Categories = () => {
           </div>
 
           {/* Right: Search */}
-          <div className="flex border rounded items-center md:w-auto">
+          <div className="flex border rounded items-center md:w-32 lg:w-auto">
             <Search />
           </div>
         </div>

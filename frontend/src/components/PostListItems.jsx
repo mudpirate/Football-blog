@@ -16,7 +16,7 @@ const PostListItems = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-full mt-4  p-4 flex justify-center items-center  mb-4 cursor-pointer transition-transform duration-300"
+      className="w-full mt-4   flex justify-center items-center  mb-4 cursor-pointer transition-transform duration-300"
     >
       <article className="mx-1 w-90 md:w-[95vw]  dark:bg-black border shadow-lg hover:shadow-md hover:scale-[1.01] transition-all duration-200 flex flex-col md:flex-row overflow-hidden">
         {/* Image Section (unchanged) */}
