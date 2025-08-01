@@ -31,7 +31,7 @@ const Categories = () => {
   return (
     <>
       {/* --- Header Image Section --- */}
-      <div className="relative">
+      <div className="relative ">
         <Image1
           src="/category.jpg"
           className="h-[30vh] object-cover object-bottom w-full"

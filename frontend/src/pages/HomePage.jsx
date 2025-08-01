@@ -7,11 +7,11 @@ import Sidebar from "../components/Sidebar";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="">
       <Hero />
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <Categories />
-        <div className="dark:bg-black ">
+        <div className="dark:bg-black max-w-screen-xl mx-auto">
           <PostList />
         </div>
       </div>

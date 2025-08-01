@@ -15,8 +15,8 @@ const Top = () => {
   };
 
   return (
-    <div className="bg-white border-b dark:border-b dark:border-white border-black dark:bg-black py-2 px-4 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="bg-white  border-b dark:border-b dark:border-white border-black dark:bg-black py-2 px-4 shadow-sm">
+      <div className="max-w-full mx-auto flex items-center justify-between">
         {/* Left: Search & Add */}
         <div className="flex items-center  sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
           <button
@@ -41,14 +41,14 @@ const Top = () => {
         </div>
 
         {/* Center: Logo */}
-        <div className="flex justify-center w-100 h-10">
+        <div className="flex justify-center  w-100 h-10">
           <Link to="/">
             <img src={logo} className="h-9 w-33 sm:w-50 sm:mr-20" alt="Logo" />
           </Link>
         </div>
 
         {/* Right: Theme + Auth + Hamburger */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex mr-2  w-32 items-center gap-3 sm:gap-4">
           <DarkModeSwitc />
 
           <SignedOut>

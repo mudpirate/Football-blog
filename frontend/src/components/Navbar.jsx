@@ -6,8 +6,8 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className=" hidden dark:bg-black max-w-screen  md:flex py-4 ">
-        <div className="flex items-center justify-center  w-full">
+      <nav className=" hidden max-w-screen  justify-center items-center  dark:bg-black  md:flex py-4 ">
+        <div className="flex items-center justify-center  mr-10 w-1/2">
           <div className="flex gap-8">
             <NavLink
               to="/"
