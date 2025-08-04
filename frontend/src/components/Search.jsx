@@ -20,8 +20,8 @@ const Search = () => {
     }
   };
   return (
-    <div className="relative  ">
-      <div className="flex items-center px-2 py-2 bg-gray-50 w-50 dark:text-white dark:bg-black   rounded-lg sm:px-4 sm:py-3 focus-within:bg-white focus-within:ring-2 transition-all duration-200">
+    <div className=" md:w-50 lg:block   ">
+      <div className="flex items-center px-2 py-2 bg-gray-50 w-full dark:text-white dark:bg-black   rounded-lg sm:px-4 sm:py-3 focus-within:bg-white focus-within:ring-2 transition-all duration-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

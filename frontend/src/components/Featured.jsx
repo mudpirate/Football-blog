@@ -3,7 +3,7 @@ import Image from "./Image";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "timeago.js";
-
+import { motion } from "framer-motion";
 const fetchPost = async () => {
   const res = await axios.get(
     `${import.meta.env.VITE_API_URL}/posts?featured=true&limit=3`
@@ -84,28 +84,28 @@ const FeaturedPosts = () => {
   if (!posts || posts.length === 0) return null;
 
   return (
-    <div className="w-full   max-w-4xl  mx-auto mt-2 px-1 sm:px-4 lg:px-6 h-[91vh] overflow-y-auto overflow-x-hidden">
-      <div className="flex flex-col  gap-2 sm:gap-3 lg:gap-4">
+    <div className="w-full   mt-2 px-1 sm:px-4 lg:px-6 h-[93vh] overflow-y-auto overflow-x-hidden">
+      <div className="flex flex-col  gap-3 sm:gap-8 md:gap-12 lg:gap-2   xl:gap-2">
         {posts.slice(0, 3).map((post, index) => (
-          <div
+          <motion.div
             key={post._id}
-            className="  dark:text-white border dark:bg-black hover:scale-[1.01] shadow hover:shadow-md transition duration-300 overflow-hidden flex flex-col sm:flex-row  sm:rounded-none"
+            className=" lg:h-[30vh] dark:text-white  dark:bg-black hover:scale-[1.01] shadow-gray-400 shadow-lg hover:shadow-md transition duration-300 overflow-hidden flex md:flex-row flex-col sm:rounded-none"
           >
             {/* Image Section */}
             {post.img && (
               <Link
                 to={`/posts/${post.slug}`}
-                className=" w-[95vw] h-70  md:w-[15vw]  sm:h-32 md:h-75 lg:h-40 xl:h-44 flex-shrink-0"
+                className=" w-[97vw] h-full  md:w-[15vw]   md:h-[30vh] xl:h-[24vh] flex-shrink-0"
               >
                 <Image
                   src={post.img}
-                  className="w-[95vw]  md:w-full h-70 md:h-75 object-cover"
+                  className="w-[97vw]  md:w-full h-70 md:h-[30vh] object-cover"
                 />
               </Link>
             )}
 
             {/* Content Section */}
-            <div className="px-3 mt-3  sm:px-4 lg:px-6 py-3 sm:py-4 flex-1 flex flex-col justify-between min-h-0">
+            <div className="px-3   sm:px-4 lg:px-6 py-3 sm:py-4 flex-1 flex flex-col justify-between min-h-0">
               <div className="flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500 mb-2">
                   <Link
@@ -127,7 +127,7 @@ const FeaturedPosts = () => {
 
                 <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base line-clamp-2 sm:line-clamp-3 mb-3">
                   {post.desc.length > 80
-                    ? `${post.desc.slice(0, 80)}...`
+                    ? `${post.desc.slice(0, 200)}...`
                     : post.desc}
                 </p>
               </div>
@@ -146,7 +146,7 @@ const FeaturedPosts = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

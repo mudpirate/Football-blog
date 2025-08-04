@@ -62,12 +62,12 @@ const SingleBlog = () => {
     );
 
   return (
-    <div className="min-h-screen  mr-3 flex justify-start pb-10">
+    <div className="min-h-screen p-1">
       <Toaster position="top-center" />
-      <div className="max-w-full  flex justify-center  items-center sm:px-4 lg:px-8 py-6">
-        <div className="flex flex-col w-95 md:w-full px-1 lg:flex-row gap-5">
+      <div className="max-w-screen  flex justify-center  items-center sm:px-4 lg:px-8 py-6">
+        <div className="flex flex-col w-full  px-1 lg:flex-row gap-5">
           {/* Main Content */}
-          <div className="flex-1 bg-white dark:bg-black border-1  w-full sm:w-full ">
+          <div className="flex-1 bg-white dark:bg-black md:border-1  w-full sm:w-full ">
             <div className=" dark:text-white px-2 py-2  dark:bg-black  shadow-xl sm:p-6 lg:p-10">
               <PostMenuAction post={data} />
               {data?.img && (
@@ -140,8 +140,8 @@ const SingleBlog = () => {
             </div>
 
             {recentPosts && (
-              <div className="bg-white border w-full sm:w-full dark:text-white dark:bg-black p-10 sm:p-6 shadow-md">
-                <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
+              <div className="bg-white border w-full sm:w-full dark:text-white dark:bg-black p-2 sm:p-6 shadow-md">
+                <h3 className="text-lg underline dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
                   Recent Posts
                 </h3>
                 <div className="space-y-4 dark:text-white  dark:bg-black ">
@@ -194,55 +194,6 @@ const SingleBlog = () => {
             </div>
 
             {/* Categories */}
-            <div className="bg-white w-full sm:w-full border dark:text-white dark:bg-black  p-6 shadow-md">
-              <h3 className="text-lg dark:text-white dark:bg-black  font-bold text-gray-900 mb-4">
-                Categories
-              </h3>
-              <div className="space-y-2">
-                <Link
-                  to="/"
-                  className="block dark:text-white dark:bg-black  px-3 py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  All blogs
-                </Link>
-                <Link
-                  to="/category/players"
-                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Players
-                </Link>
-                <Link
-                  to="/category/legends"
-                  className="block px-3 dark:text-white dark:bg-black  py-2 text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Legends
-                </Link>
-                <Link
-                  to="/category/matches"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200  rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Matches
-                </Link>
-                <Link
-                  to="/category/leagues"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Leagues
-                </Link>
-                <Link
-                  to="/category/transfers"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700  hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Transfers
-                </Link>
-                <Link
-                  to="/category/young-stars"
-                  className="block px-3 py-2 dark:text-white dark:bg-black  text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  Young stars
-                </Link>
-              </div>
-            </div>
 
             {/* you may like */}
 

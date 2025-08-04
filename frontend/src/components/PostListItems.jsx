@@ -16,14 +16,14 @@ const PostListItems = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-full mt-4  p-4 flex justify-center items-center  mb-4 cursor-pointer transition-transform duration-300"
+      className="w-full mt-4 px-1 grid grid-cols-1 md:flex  md:justify-center  md:items-center  mb-4 cursor-pointer transition-transform duration-300"
     >
-      <article className="mx-1 w-90 md:w-[95vw]  dark:bg-black border shadow-lg hover:shadow-md hover:scale-[1.01] transition-all duration-200 flex flex-col md:flex-row overflow-hidden">
+      <article className="  w-full md:w-[95vw]  dark:bg-black border shadow-lg hover:shadow-md hover:scale-[1.01] transition-all duration-200 flex flex-col md:flex-row overflow-hidden">
         {/* Image Section (unchanged) */}
-        <div className="w-full  flex justify-center md:w-80 h-68 flex-shrink-0">
+        <div className="w-[100vw]  flex justify-center md:w-80 h-68 flex-shrink-0">
           <Image1
             src={post.img}
-            className="w-full h-68 object-cover object-center"
+            className="w-[100vw] h-68 object-cover object-center"
           />
         </div>
 

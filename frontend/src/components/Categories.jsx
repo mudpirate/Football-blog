@@ -31,7 +31,7 @@ const Categories = () => {
   return (
     <>
       {/* --- Header Image Section --- */}
-      <div className="relative">
+      <div className="relative ">
         <Image1
           src="/category.jpg"
           className="h-[30vh] object-cover object-bottom w-full"
@@ -76,7 +76,7 @@ const Categories = () => {
           </div>
 
           {/* Right: Search */}
-          <div className="flex border rounded items-center md:w-auto">
+          <div className="flex border rounded items-center md:w-32 lg:w-auto">
             <Search />
           </div>
         </div>

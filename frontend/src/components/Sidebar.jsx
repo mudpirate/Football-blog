@@ -32,11 +32,11 @@ const Sidebar = () => {
         <Search />
       </div>
       {/* Filters Section */}
-      <div>
+      <div className="md:w-full  xl:w-100 text-center  md:mr-4 lg:mr-1">
         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
           Filters
         </h2>
-        <div className="flex flex-col md:flex-row md:mt-5 gap-2">
+        <div className="flex flex-col md:flex-row lg:justify-center xl:justify-evenly md:mt-5 gap-2">
           <label className="flex items-center gap-2 dark:text-white text-gray-700">
             <input
               type="radio"
@@ -55,7 +55,7 @@ const Sidebar = () => {
               onChange={filterChange}
               className="appearance-none w-4 border-[1.5px] h-4 cursor-pointer rounded-sm bg-white checked:bg-black"
             />
-            <span>Most Popular</span>
+            <span> Popular</span>
           </label>
           <label className="flex items-center gap-2 dark:text-white text-gray-700">
             <input
