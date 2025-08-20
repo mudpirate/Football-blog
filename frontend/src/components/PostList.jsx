@@ -48,6 +48,14 @@ const PostList = () => {
         </p>
       }
     >
+      {isFetching && (
+        <div className="w-full min-h-screen flex items-center">
+          <div className="text-3xl border px-3 py-4 rounded-xl">
+            Loading All Blogs...
+          </div>
+        </div>
+      )}
+
       {allPosts.map((post) => (
         <div className="mb-1 " key={post._id}>
           <PostListItem key={post._id} post={post} />

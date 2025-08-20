@@ -19,7 +19,7 @@ const FeaturedPosts = () => {
 
   if (isPending) {
     return (
-      <div flex justify-center items-center>
+      <div className="flex justify-center items-center">
         <button
           disabled
           type="button"
