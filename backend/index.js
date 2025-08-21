@@ -47,7 +47,7 @@ app.use("/comments", commentRouter);
 app.use(errorHandler);
 
 // ✅ Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   connectDB();
   console.log(`✅ Server running on http://localhost:${PORT}`);

@@ -10,6 +10,7 @@ const fetchPosts = async (pageParam, searchParams) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`, {
     params: { page: pageParam, limit: 10, ...searchParamsObj },
   });
+
   return res.data;
 };
 
@@ -33,6 +34,7 @@ const PostList = () => {
   });
 
   if (status === "loading") return "Loading...";
+  console.log(data);
 
   const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
 
@@ -56,9 +58,9 @@ const PostList = () => {
         </div>
       )}
 
-      {allPosts.map((post) => (
-        <div className="mb-1 " key={post._id}>
-          <PostListItem key={post._id} post={post} />
+      {allPosts.filter(Boolean).map((post) => (
+        <div className="mb-1" key={post._id}>
+          <PostListItem post={post} />
         </div>
       ))}
     </InfiniteScroll>
